@@ -109,13 +109,14 @@ export function timeUntil(target: Date): string {
 // Misc helpers
 // ============================================================
 
-export function initials(name: string): string {
-  return name
-    .split(' ')
+export function initials(name?: string | null): string {
+  if (!name || typeof name !== 'string') return 'AD'
+  const parts = name.trim().split(/\s+/)
+  return parts
     .map((w) => w[0])
     .slice(0, 2)
     .join('')
-    .toUpperCase()
+    .toUpperCase() || 'AD'
 }
 
 export function pluralize(count: number, singular: string, plural?: string) {
@@ -123,13 +124,14 @@ export function pluralize(count: number, singular: string, plural?: string) {
 }
 
 /** Returns avatar color based on name hash — consistent per name */
-export function avatarColor(name: string): string {
+export function avatarColor(name?: string | null): string {
   const palette = [
     '#0f3d91', '#1d4ed8', '#0f766e', '#0d9488',
     '#7c3aed', '#059669', '#d97706', '#dc2626',
   ]
+  const safeName = typeof name === 'string' && name.trim() ? name.trim() : 'User'
   let hash = 0
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  for (let i = 0; i < safeName.length; i++) hash = safeName.charCodeAt(i) + ((hash << 5) - hash)
   return palette[Math.abs(hash) % palette.length]
 }
 

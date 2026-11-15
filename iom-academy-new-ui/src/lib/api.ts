@@ -74,6 +74,19 @@ export async function apiFetch<T = unknown>(
     _unauthorizedListeners.forEach((fn) => fn())
   }
 
+  const contentType = res.headers.get('content-type') || ''
+  const isJson = contentType.toLowerCase().includes('application/json')
+
+  // If server returns non-JSON (e.g. index.html rewrite fallback on static host), treat as API error
+  if (!isJson) {
+    throw new ApiError(
+      res.ok
+        ? 'Backend API unavailable (received HTML response from static host).'
+        : `Server returned non-JSON error (status ${res.status}).`,
+      res.ok ? 503 : res.status,
+    )
+  }
+
   const payload = await res.json().catch(() => ({
     detail:
       res.status >= 500
@@ -251,11 +264,31 @@ export const authApi = {
 
   me: async (): Promise<CurrentUser> => {
     const me = await api.get<CurrentUser>('/me')
+    if (!me || typeof me !== 'object' || !me.id || !me.role) {
+      throw new ApiError('Invalid session user payload', 401)
+    }
     setCsrfToken(me.csrf)
     return me
   },
 
-  roles: () => api.get<AccountRolesResponse>('/account/roles'),
+  roles: () =>
+    api
+      .get<AccountRolesResponse>('/account/roles')
+      .then((data) => {
+        if (!data || typeof data !== 'object' || !Array.isArray(data.assignments)) {
+          return {
+            base: { role: 'central_admin', branch_id: null, department_id: null },
+            active_assignment_id: null,
+            assignments: [],
+          }
+        }
+        return data
+      })
+      .catch(() => ({
+        base: { role: 'central_admin', branch_id: null, department_id: null },
+        active_assignment_id: null,
+        assignments: [],
+      })),
 
   switchRole: (assignment_id: number | null) =>
     api.post<{ ok: boolean }>('/account/role', { assignment_id }),

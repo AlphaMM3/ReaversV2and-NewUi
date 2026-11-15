@@ -509,7 +509,7 @@ export function Student360Drawer({
                         <p className="font-bold text-heading truncate max-w-[220px]">{tkt.subject}</p>
                       </div>
                       <p className="text-[11px] text-muted mt-0.5">
-                        {tkt.kind === 'teacher_escalation' ? 'Teacher Escalation' : 'Guardian Ticket'} · {tkt.replies.length} replies
+                        {tkt.kind === 'teacher_escalation' ? 'Teacher Escalation' : 'Guardian Ticket'} · {Array.isArray(tkt.replies) ? tkt.replies.length : 0} replies
                       </p>
                     </div>
                     <Badge variant={tkt.status === 'resolved' ? 'approved' : tkt.status === 'in_progress' ? 'pending' : 'neutral'}>

@@ -40,3 +40,4 @@ Thumbs.db
 *.tar.gz
 .git_old_sub/
 tools/*.exe
+*.tsbuildinfo

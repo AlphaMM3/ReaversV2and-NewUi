@@ -90,14 +90,16 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
     queryFn: authApi.roles,
   })
 
-  const { data: notifications = [] } = useQuery<Array<{ id: number; title?: string; message: string; read_at?: string | null; created_at: string }>>({
-    queryKey: ['notifications-bell', user.id],
+  const { data: rawNotifications = [] } = useQuery<Array<{ id: number; title?: string; message: string; read_at?: string | null; created_at: string }>>({
+    queryKey: ['notifications-bell', user?.id],
     queryFn: () =>
       api
         .get<Array<{ id: number; title?: string; message: string; read_at?: string | null; created_at: string }>>('/notifications')
+        .then(toArray)
         .catch(() => []),
   })
-  const unreadNotifications = notifications.filter((n) => !n.read_at).length
+  const notifications = useMemo(() => toArray(rawNotifications), [rawNotifications])
+  const unreadNotifications = useMemo(() => notifications.filter((n) => !n?.read_at).length, [notifications])
   const attentionQueue = useAttentionQueue()
   const dockedAttentionItems = attentionQueue.docked ? attentionQueue.items : []
 
@@ -343,8 +345,8 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
     setMobileMenuOpen(false)
   }
 
-  const bg = avatarColor(user.name)
-  const assignments = rolesData?.assignments ?? []
+  const bg = avatarColor(user?.name)
+  const assignments = Array.isArray(rolesData?.assignments) ? rolesData.assignments : []
 
   const renderSidebarBody = (isMobileDrawer = false) => {
     const isCollapsed = !isMobileDrawer && sidebarCollapsed
@@ -837,13 +839,13 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
                                 #{t.token} · {t.student_name ? `${t.student_name}: ` : ''}{t.subject}
                               </p>
                               <p className="text-[10px] text-muted truncate">
-                                {t.replies.length > 0
-                                  ? `সর্বশেষ: ${t.replies[t.replies.length - 1].message}`
+                                {(Array.isArray(t.replies) ? t.replies.length : 0) > 0
+                                  ? `সর্বশেষ: ${t.replies[t.replies.length - 1]?.message ?? ''}`
                                   : t.description}
                               </p>
                             </div>
                             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 ml-2 shrink-0">
-                              {t.replies.length} বার্তা
+                              {Array.isArray(t.replies) ? t.replies.length : 0} বার্তা
                             </span>
                           </button>
                         ))}

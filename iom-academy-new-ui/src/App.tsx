@@ -41,6 +41,7 @@ const LeaderboardPage = lazy(() => import('@/features/leaderboard/LeaderboardPag
 const PublicVerifyPage = lazy(() => import('@/features/public/PublicVerifyPage'))
 import type { CurrentUser } from '@/lib/api'
 import { authApi, subscribeUnauthorized } from '@/lib/api'
+import { getStoredSessionUser, saveSessionUser } from '@/lib/demoSession'
 import {
   DEFAULT_NAV_VISIBILITY_RULES,
   NAV_VISIBILITY_RULES_KEY,
@@ -182,12 +183,26 @@ export default function App() {
   useEffect(() => {
     if (isPublic) return
     let active = true
+    const stored = getStoredSessionUser()
     authApi.me()
       .then((u) => {
-        if (active) dispatch({ type: 'SESSION_FOUND', user: u })
+        if (!active) return
+        if (u && u.id && u.role) {
+          saveSessionUser(u)
+          dispatch({ type: 'SESSION_FOUND', user: u })
+        } else if (stored) {
+          dispatch({ type: 'SESSION_FOUND', user: stored })
+        } else {
+          dispatch({ type: 'SESSION_MISSING' })
+        }
       })
       .catch(() => {
-        if (active) dispatch({ type: 'SESSION_MISSING' })
+        if (!active) return
+        if (stored) {
+          dispatch({ type: 'SESSION_FOUND', user: stored })
+        } else {
+          dispatch({ type: 'SESSION_MISSING' })
+        }
       })
     return () => { active = false }
   }, [isPublic])
@@ -213,6 +228,7 @@ export default function App() {
     return subscribeUnauthorized(() => {
       const currentRoute = parseHashRoute(window.location.hash).route
       if (currentRoute === 'verify' || currentRoute.startsWith('verify/')) return
+      saveSessionUser(null)
       dispatch({ type: 'UNAUTHORIZED_401' })
       qc.clear()
       navigate('#/login')
@@ -252,6 +268,7 @@ export default function App() {
       <div data-auth-state="unauthenticated" data-role="anonymous" data-route="login">
         <LoginView
           onLogin={(u) => {
+            saveSessionUser(u)
             dispatch({ type: 'LOGIN_SUCCESS', user: u })
             navigate(getDefaultRouteForRole(u.role, navRules))
           }}
@@ -275,8 +292,12 @@ export default function App() {
     <div data-auth-state="authenticated" data-role={auth.user.role} data-route={route}>
       <AppShell
         user={auth.user}
-        onUserChange={(u) => dispatch({ type: 'ROLE_SWITCHED', user: u })}
+        onUserChange={(u) => {
+          saveSessionUser(u)
+          dispatch({ type: 'ROLE_SWITCHED', user: u })
+        }}
         onLogout={() => {
+          saveSessionUser(null)
           dispatch({ type: 'LOGOUT' })
           qc.clear()
           navigate('#/login')
