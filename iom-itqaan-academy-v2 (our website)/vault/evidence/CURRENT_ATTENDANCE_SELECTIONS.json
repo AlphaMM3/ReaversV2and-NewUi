@@ -1,0 +1,12 @@
+{
+  "recorded_on": "2026-10-31",
+  "answers": {
+    "correction_mode": "CLASS_DATE_SEVENTH_DAY_23_59_ASIA_DHAKA",
+    "correction_mode_exact_user_answer": "ক্লাসের তারিখ ধরে সপ্তম দিনের রাত ১১:৫৯ পর্যন্ত",
+    "correction_example_last_date": "2026-11-07",
+    "held_evidence_approved": false,
+    "retroactive_leave_recalc_approved": false
+  },
+  "scope": "Current task replies only;unanswered flags false mean PENDING,not rejection",
+  "cutoff_example_exact_user_answer": "৭ নভেম্বর রাত ১১:৫৯—ক্লাসের পরের দিন থেকে সাত দিন"
+}

@@ -1,0 +1,57 @@
+name: Academy parity
+on:
+  pull_request:
+  push:
+    branches: [main, staging, 'codex/**']
+permissions:
+  contents: read
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - database: mysql:8.0
+            admin: mysqladmin
+          - database: mariadb:11.4
+            admin: mariadb-admin
+    services:
+      sql:
+        image: ${{ matrix.database }}
+        env:
+          MYSQL_ROOT_PASSWORD: synthetic-ci-root-only
+          MYSQL_DATABASE: academy_test_ci
+          MYSQL_USER: academy_ci
+          MYSQL_PASSWORD: synthetic-ci-password-only
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="${{ matrix.admin }} ping -h 127.0.0.1 -uacademy_ci -psynthetic-ci-password-only"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    env:
+      ACADEMY_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_NAME: academy_test_ci
+      DB_USER: academy_ci
+      DB_PASSWORD: synthetic-ci-password-only
+      ACADEMY_ALLOW_SETUP: 1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run verify:baseline
+      - run: npm test
+      - run: npm run test:upgrade
+      - run: npm run migrate
+      - run: npm run migrate
+      - run: npm run test:mysql
+      - run: python -m pip install -r baseline/python-v0.2/requirements-local-tested.txt
+      - run: python -m pytest -q baseline/python-v0.2/tests
+      - name: Verify Hostinger production build and runtime dependencies
+        run: NODE_ENV=production npm run build:hostinger

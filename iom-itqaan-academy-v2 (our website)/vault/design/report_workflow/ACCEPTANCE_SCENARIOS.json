@@ -1,0 +1,366 @@
+{
+  "status": "REVIEW_DRAFT",
+  "application_tests_executed": 0,
+  "scenarios": [
+    {
+      "scenario_id": "RP-AT-001",
+      "decision_refs": "D-032,D-043",
+      "given": "Assigned Teacher ends valid courseA session",
+      "event": "EndClass",
+      "expected": "Stop timer;open courseA report template;do not submit automatically",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-002",
+      "decision_refs": "D-032",
+      "given": "CoursesA/B require different templates",
+      "event": "Open form",
+      "expected": "Use course-specific template;required academic field definition pending,not fabricated",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-003",
+      "decision_refs": "D-043",
+      "given": "Draft report at11:50 with noon due",
+      "event": "Save Draft",
+      "expected": "Still not submitted;initial duty remains outstanding",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-004",
+      "decision_refs": "D-033,D-043;AM-17",
+      "given": "Valid own report durably submitted11:55 for noon deadline",
+      "event": "Await Zimmadar review",
+      "expected": "Submission OnTime;AwaitingReview;no Teacher late reminder solely for missing approval",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-005",
+      "decision_refs": "D-035;AM-08,AM-17",
+      "given": "Timely Submitted,not Approved,still AwaitingReview",
+      "event": "12:05/14:00/16:00/18:00 worker evaluates initial missing-report jobs",
+      "expected": "Suppress all initial late-report stages;approval is separate obligation",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-006",
+      "decision_refs": "D-033",
+      "given": "Own batch current submitted revision",
+      "event": "Zimmadar Approve",
+      "expected": "Approved with reviewer/time/revision evidence;submission timestamp unchanged",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-007",
+      "decision_refs": "D-044",
+      "given": "Current submitted report",
+      "event": "Zimmadar Return with no reason",
+      "expected": "Validation rejects missing reason",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-008",
+      "decision_refs": "D-044",
+      "given": "Report returned with written reason",
+      "event": "Teacher revises/resubmits",
+      "expected": "Retain earlier submission/return snapshots and new submitted version;review again",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-009",
+      "decision_refs": "D-038",
+      "given": "Actual Substitute assigned session",
+      "event": "Substitute submits own report",
+      "expected": "Accepted for own assigned class;Zimmadar approval still required",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-010",
+      "decision_refs": "D-038,D-191",
+      "given": "Unrelated Teacher from another batch",
+      "event": "Submit/review report by changed ID",
+      "expected": "Deny out-of-scope action",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-011",
+      "decision_refs": "D-034;AM-04",
+      "given": "Actual local end31Oct2026 at22:59",
+      "event": "Compute ordinary due",
+      "expected": "31Oct2026 at23:59 Asia/Dhaka",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-012",
+      "decision_refs": "D-034;AM-04",
+      "given": "Actual local end31Oct2026 at23:00",
+      "event": "Compute late-night due",
+      "expected": "1Nov2026 at12:00 Asia/Dhaka",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-013",
+      "decision_refs": "D-034;AM-04",
+      "given": "Actual local end31Oct2026 at23:59",
+      "event": "Compute late-night due",
+      "expected": "1Nov2026 at12:00 Asia/Dhaka",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-014",
+      "decision_refs": "D-034,D-043;AM-07",
+      "given": "Class begins31Oct,ends1Nov2026 at00:30 Asia/Dhaka",
+      "event": "Compute after-midnight due",
+      "expected": "1Nov2026 at12:00;not2Nov noon",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-015",
+      "decision_refs": "D-035;AM-08",
+      "given": "Relevant noon due report still unsubmitted on due date",
+      "event": "At12:05",
+      "expected": "Teacher Reminder",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-016",
+      "decision_refs": "D-035;AM-08",
+      "given": "Same outstanding report on due date",
+      "event": "At14:00",
+      "expected": "Batch Zimmadar Alert",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-017",
+      "decision_refs": "D-035;AM-08",
+      "given": "Same outstanding report on due date",
+      "event": "At16:00",
+      "expected": "Department Supervisor Escalation",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-018",
+      "decision_refs": "D-035;AM-08",
+      "given": "Same outstanding report on due date",
+      "event": "At18:00",
+      "expected": "Management Escalation;no automatic infinite repeat inferred",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-019",
+      "decision_refs": "D-035;AM-08",
+      "given": "Noon due outstanding report",
+      "event": "At12:04",
+      "expected": "No approved12:05 Teacher stage yet;other unapproved early sends not invented",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-020",
+      "decision_refs": "D-034,D-035",
+      "given": "Ordinary23:59 due report unsubmitted",
+      "event": "Select reminder schedule",
+      "expected": "Do not borrow noon times or invent09:00;RQ-03 unresolved",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-03",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-021",
+      "decision_refs": "D-044",
+      "given": "Returned report awaiting revision",
+      "event": "Calculate revision deadline",
+      "expected": "24h versus Zimmadar-chosen deadline unresolved;do not assign by default",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-04",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-022",
+      "decision_refs": "D-033;AM-17",
+      "given": "Timely submission awaiting review",
+      "event": "Calculate Zimmadar review due",
+      "expected": "No approved review SLA or reviewer reminder time invented",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-12",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-023",
+      "decision_refs": "D-034;AM-07",
+      "given": "Noon due;submission exactly12:00:00/12:00:01",
+      "event": "Classify equality",
+      "expected": "Needs exact-second boundary policy;no false approved result",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-02",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-024",
+      "decision_refs": "D-035",
+      "given": "Teacher late-submits after14:00 escalation",
+      "event": "Close future reminder obligation",
+      "expected": "Late-arrival stop/resolution policy not assumed from timely-submit answer",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-05",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-025",
+      "decision_refs": "D-041,D-034",
+      "given": "Zimmadar-approved actual-end correction changes23:00 to22:59",
+      "event": "Recompute deadline/compliance",
+      "expected": "Retain old evidence;replay/compliance/delivered-alert handling unresolved",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-06",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-026",
+      "decision_refs": "D-052",
+      "given": "Approved makeup linked cancelled original",
+      "event": "Create report obligation",
+      "expected": "Makeup owns own report/hours/attendance;retain link;no duplicate original report implied",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-027",
+      "decision_refs": "D-140",
+      "given": "Teacher sends Telegram report text only",
+      "event": "Assess official submission",
+      "expected": "Not a valid Portal report submission",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-028",
+      "decision_refs": "D-044,D-162",
+      "given": "Report v1 submitted;author/reviewer concurrent stale v0 actions",
+      "event": "Commit review",
+      "expected": "Proposed optimistic version guard rejects stale revision;no approval of unseen new content",
+      "classification": "TECHNICAL_PROPOSAL",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-029",
+      "decision_refs": "D-162",
+      "given": "Same valid submission double-click/event replay",
+      "event": "Persist",
+      "expected": "Proposed idempotence prevents duplicate logical report/submission job",
+      "classification": "TECHNICAL_PROPOSAL",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-030",
+      "decision_refs": "D-035;AM-17",
+      "given": "Timely valid submit commits while reminder job waits",
+      "event": "Worker sends",
+      "expected": "Proposed current-version read skips obsolete initial reminder;exact simultaneous boundary RQ-02",
+      "classification": "TECHNICAL_PROPOSAL",
+      "pending_refs": "RQ-02",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-031",
+      "decision_refs": "D-035;AM-08",
+      "given": "Worker restarts17:00 after missing12:05/14:00/16:00",
+      "event": "Catch up",
+      "expected": "No burst/collapse policy assumed;RQ-07 review required",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-07",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-032",
+      "decision_refs": "D-044",
+      "given": "Approved report needs changed content",
+      "event": "Direct overwrite attempt",
+      "expected": "No general overwrite/reopen permission inferred;RQ-08 required",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-08",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-033",
+      "decision_refs": "D-033,D-189",
+      "given": "Same staff has Teacher and Zimmadar roles",
+      "event": "Review own authored report",
+      "expected": "Dual-role self-review conflict not resolved by role switching;RQ-09",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-09",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-034",
+      "decision_refs": "D-090,D-172",
+      "given": "Guardian reads integrated child progress",
+      "event": "Fetch note/report fields",
+      "expected": "Private follow-up note excluded;class-report publication fields still RQ-10",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-035",
+      "decision_refs": "D-034;AM-07",
+      "given": "End missing or contradictory,start context unknown",
+      "event": "Compute due",
+      "expected": "No fabricated actual-end date or authoritative deadline;RQ-01",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "RP-AT-036",
+      "decision_refs": "D-034",
+      "given": "Client clicks Submit before due,server fails to persist",
+      "event": "Assess timely submission",
+      "expected": "Do not claim durable submission from client click;offline/outage grace RQ-11",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "RQ-11",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    }
+  ]
+}

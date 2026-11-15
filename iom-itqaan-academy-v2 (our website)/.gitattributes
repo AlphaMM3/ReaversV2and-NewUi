@@ -1,0 +1,5 @@
+* text eol=lf
+# Imported evidence must retain exact bytes across Windows and Linux checkouts.
+baseline/** -text
+vault/** -text
+public/** -text

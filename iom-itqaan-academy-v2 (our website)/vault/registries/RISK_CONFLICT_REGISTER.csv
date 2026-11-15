@@ -1,0 +1,16 @@
+﻿risk_id,severity,finding,decision_ids,required_action,status
+R-01,HIGH,Late boundary misstatement,D-055,Use >15 not >=15; test exactly 15 and 15m01s,OPEN_FOR_REVIEW
+R-02,CRITICAL,Report approval sometimes optional in old draft,"D-033,D-044","Zimmadar review mandatory, return/revision states",OPEN_FOR_REVIEW
+R-03,HIGH,Unconditional substitute guardian notice,D-047,Conditional notifications only,OPEN_FOR_REVIEW
+R-04,CRITICAL,Generic correction policy conflated records,"D-041,D-058,D-080,D-091",Record-type specific approval/time rules,OPEN_FOR_REVIEW
+R-05,CRITICAL,Duplicated payment verification in new system,"D-015,D-141,D-171",Legacy payment confirmation source only,OPEN_FOR_REVIEW
+R-06,HIGH,Guardian roles and leave workflow missing,D-061..078,Extend workflows,OPEN_FOR_REVIEW
+R-07,HIGH,Monthly attendance and warning rules missing,D-084..096,Separate streak vs monthly warning engine,OPEN_FOR_REVIEW
+R-08,CRITICAL,Advanced follow-up/escalation omitted,D-097..131,Detailed state/approval/timer engine,OPEN_FOR_REVIEW
+R-09,HIGH,1:1 guardian login mistakenly unified,D-169,Preserve separate login,OPEN_FOR_REVIEW
+R-10,HIGH,Original MVP scope at risk in phased build,"D-132..146,D-179",Feature-to-release gate traceability,OPEN_FOR_REVIEW
+R-11,HIGH,Staff lifecycle and reviews omitted,D-187..199,New workflow family,OPEN_FOR_REVIEW
+R-12,MEDIUM,Source date not approval date,Reference notes,Keep evidence status separate,OPEN_FOR_REVIEW
+R-13,HIGH,Calendar-day interpretation conflicts with new clarification,"D-019,D-056,D-057,AM-01,AM-02",Count held unauthorized missed sessions only,OPEN_FOR_REVIEW
+R-14,HIGH,Overdue report intermediate timing not explicitly approved,"D-035,AM-04",Keep intervals PENDING,OPEN_FOR_REVIEW
+R-15,CRITICAL,Legacy API/database not inspected,D-167..175,Read-only feasibility audit before integration,OPEN_FOR_REVIEW

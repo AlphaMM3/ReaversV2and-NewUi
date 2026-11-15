@@ -1,0 +1,1 @@
+Report design v1.5:source/201-row validator PASS;36 candidate acceptance scenarios NOT_RUN;no application tests executed. Source/proposals and attendance design byte-identical;v1.4.1 baseline unchanged. AM-17 only explicit new approval;other pending branches retained. Full diff/hash evidence in companion audit ZIP.

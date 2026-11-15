@@ -1,0 +1,716 @@
+{
+  "status": "REVIEW_DRAFT",
+  "application_tests_executed": 0,
+  "scenarios": [
+    {
+      "scenario_id": "AF-AT-001",
+      "decision_refs": "D-055",
+      "given": "Verified class-start/join anchors available",
+      "event": "Join exactly15min after start",
+      "expected": "Present;do not mark Late;anchor policy AFQ-04 still required",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-002",
+      "decision_refs": "D-055",
+      "given": "Same verified anchors",
+      "event": "Join15min01s after start",
+      "expected": "Late",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-003",
+      "decision_refs": "D-053,D-054",
+      "given": "Provider payload exists but Teacher has not verified",
+      "event": "Read attendance",
+      "expected": "Do not claim provider data final verified attendance",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-004",
+      "decision_refs": "D-019,D-056;AM-01",
+      "given": "Enrollment E,6 qualifying consecutive held misses",
+      "event": "Sixth miss",
+      "expected": "No seventh-class alert",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-005",
+      "decision_refs": "D-019,D-056;AM-01",
+      "given": "Same enrollment next held unauthorized Absent",
+      "event": "Seventh miss",
+      "expected": "Zimmadar alert and assigned Teacher family-contact follow-up",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-006",
+      "decision_refs": "D-019,D-056",
+      "given": "Six qualifying misses then scheduled class cancelled",
+      "event": "Recompute",
+      "expected": "Cancelled session does not increment held missed-class counter",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-007",
+      "decision_refs": "D-057;AM-06",
+      "given": "First contact case still pending;additional7 qualifying misses",
+      "event": "Recompute phase2",
+      "expected": "Phase2 remains unstarted;cannot second-escalate merely from fourteen total misses",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-008",
+      "decision_refs": "D-057;AM-02,AM-06",
+      "given": "Valid first follow-up completed;6 subsequent consecutive eligible misses",
+      "event": "Recompute",
+      "expected": "No second escalation",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-009",
+      "decision_refs": "D-057;AM-02,AM-06",
+      "given": "Valid completion then7 subsequent eligible misses",
+      "event": "Seventh postcompletion miss",
+      "expected": "Zimmadar reminder and Supervisor escalation",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-010",
+      "decision_refs": "D-148;AM-09",
+      "given": "Enrollment A six misses;enrollment B six misses",
+      "event": "A seventh miss",
+      "expected": "Only A crosses threshold;B unchanged",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-011",
+      "decision_refs": "D-072,D-084;AM-12",
+      "given": "Approved leave active;actually held missed class",
+      "event": "Attendance calculation",
+      "expected": "Absent remains denominator;percentage visible;warning/follow-up/escalation paused",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-012",
+      "decision_refs": "D-073",
+      "given": "Approved leave ends",
+      "event": "Resume monitoring",
+      "expected": "Absence counter zero;history retained;phase/case lifecycle branch AFQ-06 unresolved",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-013",
+      "decision_refs": "D-087;AM-12",
+      "given": "Pending low-attendance clock has1 day remaining at leave start",
+      "event": "Leave ends",
+      "expected": "Resume with1 day remaining,not full3 days;day-unit conversion pending AFQ-07",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-014",
+      "decision_refs": "D-077,D-078;AM-14",
+      "given": "Approved leave ended",
+      "event": "First verified postleave Present",
+      "expected": "Returned,without separate confirmation form/notification",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-015",
+      "decision_refs": "D-077,D-078;AM-14",
+      "given": "Approved leave ended",
+      "event": "First verified postleave Late",
+      "expected": "Returned,without separate confirmation form/notification",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-016",
+      "decision_refs": "D-077;AM-14",
+      "given": "Approved leave ended",
+      "event": "Postleave Absent",
+      "expected": "Do not mark Returned",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-017",
+      "decision_refs": "D-084,D-095;AM-15",
+      "given": "Session outside effective enrollment interval",
+      "event": "Compute monthly attendance",
+      "expected": "Exclude session from enrollment denominator/counter;exact boundary AFQ-08",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-018",
+      "decision_refs": "D-084",
+      "given": "4 held with1 Present,1 Late,2 approved-leave Absent",
+      "event": "Calculate",
+      "expected": "Percentage50%;leave Absents stay denominator;leave pause is separate",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-019",
+      "decision_refs": "D-085,D-096",
+      "given": "4 held;3 Present,1 Absent;no leave pause",
+      "event": "Evaluate",
+      "expected": "Exactly75%;no new below75 warning",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-020",
+      "decision_refs": "D-085,D-086,D-096",
+      "given": "3 held;2 Present,1 Absent;no pause",
+      "event": "Evaluate",
+      "expected": "Below75%;warning Guardian,Class Teacher,Zimmadar",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-021",
+      "decision_refs": "D-096",
+      "given": "2 held;both Absent",
+      "event": "Evaluate",
+      "expected": "No low-attendance warning despite0%",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-022",
+      "decision_refs": "D-095,D-097",
+      "given": "Previous month pending case;new month begins",
+      "event": "Month rollover",
+      "expected": "Old case remains;new monthly counts separate",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-023",
+      "decision_refs": "D-094,D-096,D-097;AM-13",
+      "given": "Previous pending LOW_ATTENDANCE;new month2 held,100%",
+      "event": "Evaluate closure",
+      "expected": "Do not auto-close previous-month case yet",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-024",
+      "decision_refs": "D-094,D-097;AM-13",
+      "given": "Previous pending LOW_ATTENDANCE;new month3 held,100%",
+      "event": "Evaluate closure",
+      "expected": "Auto-close prior-month pending low-attendance;retain history",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-025",
+      "decision_refs": "D-094,D-097;AM-13",
+      "given": "Previous low-attendance,absence case and action plan all pending;new month4 held,75%",
+      "event": "Evaluate closure",
+      "expected": "Close applicable low-attendance only;absence case/action plan remain",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-026",
+      "decision_refs": "D-087,D-088",
+      "given": "Active unpaused warning case",
+      "event": "Due3 days without notes",
+      "expected": "Teacher reminder and Zimmadar alert;further3 days Supervisor;exact arithmetic AFQ-07",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-027",
+      "decision_refs": "D-089,D-102",
+      "given": "Assigned authorized Teacher with valid contact note",
+      "event": "Submit note",
+      "expected": "Case Completed;date,Guardian statement,next steps retained privately",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-028",
+      "decision_refs": "D-090",
+      "given": "Guardian or unrelated Teacher",
+      "event": "Read private follow-up note",
+      "expected": "Deny even if child attendance summary is otherwise readable",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-029",
+      "decision_refs": "D-091,D-092",
+      "given": "Own submitted note;within allowed24h",
+      "event": "Authorized edit",
+      "expected": "Versioned before/after,editor,time;after window Zimmadar approval",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-030",
+      "decision_refs": "D-101,D-102",
+      "given": "Reminder delivered",
+      "event": "Teacher acknowledges only",
+      "expected": "Acknowledgement optional;case not completed by acknowledgement",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-031",
+      "decision_refs": "D-103,D-104",
+      "given": "Completed LOW_ATTENDANCE case,reopen_count0;within24h",
+      "event": "Teacher reopens",
+      "expected": "Pending reopened cycle,count1,new24h due",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-032",
+      "decision_refs": "D-103",
+      "given": "Completed case;after24h",
+      "event": "Teacher reopens without permission",
+      "expected": "Deny;Zimmadar permission required",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-033",
+      "decision_refs": "D-106",
+      "given": "Completed case,reopen_count2",
+      "event": "Third reopen attempt",
+      "expected": "Deny;request new follow-up route available",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-034",
+      "decision_refs": "D-107,D-108",
+      "given": "Teacher requests linked new case after cap",
+      "event": "Zimmadar reviews/approves",
+      "expected": "Separate linked new case,due3 days;not third reopen",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-035",
+      "decision_refs": "D-105",
+      "given": "Reopened active case incomplete24h",
+      "event": "Overdue evaluation",
+      "expected": "Teacher reminder+Zimmadar alert",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-036",
+      "decision_refs": "D-109",
+      "given": "Approved new active case incomplete",
+      "event": "At3 days then6 days",
+      "expected": "First Teacher+Zimmadar;then Supervisor",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-037",
+      "decision_refs": "D-110,D-111,D-112",
+      "given": "Escalated case assigned new Teacher by Supervisor",
+      "event": "48h incomplete then another24h",
+      "expected": "Teacher+Supervisor at48h;Management at further24h",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-038",
+      "decision_refs": "D-113,D-114",
+      "given": "Management escalation",
+      "event": "Management requests Supervisor action plan",
+      "expected": "Plan due24h;Management may also reassign/change deadline per source",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-039",
+      "decision_refs": "D-115,D-116",
+      "given": "No initial plan24h;another Supervisor/Staff assigned",
+      "event": "Assignment",
+      "expected": "Management alerted;new author12h plan deadline",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-040",
+      "decision_refs": "D-117",
+      "given": "Reassigned author still no plan12h",
+      "event": "Failure evaluation",
+      "expected": "Management can create plan,reassign or emergency intervene",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-041",
+      "decision_refs": "D-118",
+      "given": "Supervisor/Staff authors plan",
+      "event": "Submission",
+      "expected": "Needs Management approval",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-042",
+      "decision_refs": "D-118",
+      "given": "Authorized Management authors plan",
+      "event": "Submission",
+      "expected": "No separate approval required;audited",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-043",
+      "decision_refs": "D-119,D-120",
+      "given": "Management returns plan",
+      "event": "No revision12h",
+      "expected": "Management alert and permitted amend/reassign/emergency action",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-044",
+      "decision_refs": "D-121,D-122,D-123,D-124",
+      "given": "Approved plan in progress",
+      "event": "No progress update24h",
+      "expected": "Supervisor reminder+Management alert;update form requires all source contents",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-045",
+      "decision_refs": "D-125,D-126,D-128",
+      "given": "Blocker reported",
+      "event": "Supervisor assigns resolver/priority",
+      "expected": "Management alert;resolver/status/history tracked;Management override available",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-046",
+      "decision_refs": "D-127,D-129",
+      "given": "Unresolved Critical blocker at approved due",
+      "event": "Deadline reached",
+      "expected": "6h standard deadline;Resolver+Supervisor+Management immediate overdue alert",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-047",
+      "decision_refs": "D-127,D-129",
+      "given": "Unresolved High blocker",
+      "event": "12h due then another6h",
+      "expected": "At due Resolver reminder+Supervisor;Management after6h",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-048",
+      "decision_refs": "D-127,D-129",
+      "given": "Unresolved Normal blocker",
+      "event": "24h due then another6h",
+      "expected": "At due Resolver reminder+Supervisor;Management after6h",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-049",
+      "decision_refs": "D-130,D-131",
+      "given": "Escalated blocker reassigned by Management",
+      "event": "Set new due",
+      "expected": "Use explicit Management deadline;no invented fixed default",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-050",
+      "decision_refs": "D-059,D-191",
+      "given": "Guardian of familyA / ordinary staff branchA",
+      "event": "Request familyB/branchB attendance",
+      "expected": "Deny cross-family or unauthorized cross-branch access",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-051",
+      "decision_refs": "D-066,D-068",
+      "given": "Secondary linked Guardian submits leave",
+      "event": "Teacher tries approval",
+      "expected": "Guardian may submit;only related Zimmadar approves/rejects",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-052",
+      "decision_refs": "D-069",
+      "given": "Zimmadar rejects notice",
+      "event": "Missing reason",
+      "expected": "Reject action validation;written reason required;resubmission retains history",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-053",
+      "decision_refs": "D-070,D-071",
+      "given": "Emergency notice for date range includes past classes",
+      "event": "Evaluate each covered past class",
+      "expected": "Apply class-end+24h deadline per class;no range bypass",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-054",
+      "decision_refs": "D-074,D-075",
+      "given": "Guardian requests15-calendar-day notice",
+      "event": "Validation/review",
+      "expected": "Use extension route;Zimmadar review+Supervisor final,not ordinary14-day notice",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-055",
+      "decision_refs": "D-080;AM-16;AM-16-C1",
+      "given": "Teacher own31Oct2026 class;authorized correction before calendar cutoff",
+      "event": "Attendance edit",
+      "expected": "Direct correction through7Nov2026 at23:59 Asia/Dhaka;not elapsed168h;exact endpoint second precision pending AFQ-07",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-056",
+      "decision_refs": "D-080;AM-16",
+      "given": "Teacher own class,after approved calendar cutoff",
+      "event": "Attendance edit",
+      "expected": "Zimmadar approval required;UI hiding alone insufficient",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-057",
+      "decision_refs": "D-041,D-080",
+      "given": "Attendance correction still direct-edit eligible",
+      "event": "Manual timer correction",
+      "expected": "Still requires Zimmadar approval;record-specific policy not conflated",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-058",
+      "decision_refs": "D-081,D-082",
+      "given": "Authorized correction removes threshold crossing",
+      "event": "Recalculate",
+      "expected": "Close unnecessary pending alerts;Guardian dashboard corrected;no separate correction notification",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-059",
+      "decision_refs": "D-099",
+      "given": "Zimmadar selects several own-batch cases",
+      "event": "Bulk action",
+      "expected": "Allow Teacher reminders;deny bulk Complete/Close",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-060",
+      "decision_refs": "D-060,D-062,D-063,D-100",
+      "given": "SiblingA weekly,B instant;Telegram unlinked",
+      "event": "Attendance notice/reminder routing",
+      "expected": "Per-child settings separate;portal works;no linked personal Telegram send",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-061",
+      "decision_refs": "D-162;D-082",
+      "given": "Same committed source revision delivered twice",
+      "event": "Reprocess event",
+      "expected": "Proposed idempotent recomputation;no duplicate case/alert;not proof of external exactly-once",
+      "classification": "TECHNICAL_PROPOSAL",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-062",
+      "decision_refs": "D-112;D-162",
+      "given": "Old assignment timer pending after reassignment",
+      "event": "Worker attempts old job",
+      "expected": "Proposed current-generation check skips stale assignee job;history retained",
+      "classification": "TECHNICAL_PROPOSAL",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-063",
+      "decision_refs": "D-053,D-084",
+      "given": "Held class exists;attendance missing",
+      "event": "Read official percentage",
+      "expected": "Flag completeness;do not invent Absent or official complete percentage",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-10",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-064",
+      "decision_refs": "D-057;AM-06",
+      "given": "First case reopened after phase2 started",
+      "event": "Evaluate second counter",
+      "expected": "No silent choice;requires completion/reopen cutover policy",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-05,AFQ-06",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-065",
+      "decision_refs": "D-072,D-082",
+      "given": "Timely submitted leave approved after alert delivered",
+      "event": "Replay coverage",
+      "expected": "Counter/pending-alert and delivered-history behavior per explicit AFQ-03 answer;otherwise blocked",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-03",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-066",
+      "decision_refs": "D-158;AM-15",
+      "given": "Transfer/session at identical instant",
+      "event": "Resolve enrollment coverage",
+      "expected": "Blocked until interval inclusivity and ordering policy determined",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-08",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-067",
+      "decision_refs": "D-087;AM-12",
+      "given": "Case already overdue when leave begins",
+      "event": "Pause/resume",
+      "expected": "No fresh deadline assumed;needs precise overdue/resume policy",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-09",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-068",
+      "decision_refs": "D-099,D-121,D-125",
+      "given": "Staff attempts manual case close/plan finish/blocker resolution",
+      "event": "Authorize terminal action",
+      "expected": "No blanket grant from bulk constraint;needs actor/reason decision",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-11",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-069",
+      "decision_refs": "D-090,D-110",
+      "given": "Teacher no longer assigned after reassignment",
+      "event": "Read historical private notes",
+      "expected": "Apply reviewed former/current assignee policy;no automatic broad access",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-12",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-070",
+      "decision_refs": "D-060,D-086",
+      "given": "Guardian weekly preference;new low-attendance warning",
+      "event": "Dispatch timing",
+      "expected": "Mandatory-warning versus preference precedence unresolved",
+      "classification": "PENDING_POLICY",
+      "pending_refs": "AFQ-13",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    },
+    {
+      "scenario_id": "AF-AT-072",
+      "decision_refs": "D-058,D-080;AM-16,AM-16-C1",
+      "given": "Teacher own31Oct2026 class;local time8Nov2026 at00:00 Asia/Dhaka",
+      "event": "Attempt direct attendance correction",
+      "expected": "Direct correction denied;Zimmadar approval required",
+      "classification": "SOURCE_GROUNDED",
+      "pending_refs": "",
+      "execution_status": "NOT_RUN_SPECIFICATION_ONLY"
+    }
+  ]
+}

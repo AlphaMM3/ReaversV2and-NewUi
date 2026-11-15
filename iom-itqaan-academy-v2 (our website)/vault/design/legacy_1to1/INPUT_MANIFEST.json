@@ -1,0 +1,49 @@
+{
+  "scope": "Supplied archive static inspection only;no PHP execution,SQL import,production connection or data-content audit",
+  "verified_on": "2026-10-31",
+  "archive_name": "itqaan-class-manager-hostinger.zip",
+  "archive_sha256": "92078c2929d858bc5dff3571aa77c85ad2fbc6ee53c3cdb3afe448d71874365f",
+  "archive_bytes": 9551,
+  "files": [
+    {
+      "path": "itqaan-class-manager/index.php",
+      "bytes": 19103,
+      "sha256": "6818cc730b0719e5c694bb571c5fc2489f5da35f826f4dea2c2c83c42e2290fa",
+      "lines": 73
+    },
+    {
+      "path": "itqaan-class-manager/config.example.php",
+      "bytes": 176,
+      "sha256": "db63f74503e006d2d4179d98e57906d4186598ad193d606bcba6eb2736955822",
+      "lines": 8
+    },
+    {
+      "path": "itqaan-class-manager/README.md",
+      "bytes": 3231,
+      "sha256": "21336fe8318dacd8c0999ac991ae3e4a62169c735a16f6a410555ec8bb08b20e",
+      "lines": 32
+    },
+    {
+      "path": "itqaan-class-manager/schema.sql",
+      "bytes": 2018,
+      "sha256": "f3113728c6381efbcf75b713f221dda795b609e32f148934e88fecc559935333",
+      "lines": 5
+    },
+    {
+      "path": "itqaan-class-manager/.htaccess",
+      "bytes": 125,
+      "sha256": "3f5fff0ebedefab65834f6ed77736b338b8177aa279ea92157c2f813437d7162",
+      "lines": 4
+    }
+  ],
+  "tables": [
+    "users",
+    "students",
+    "schedules",
+    "sessions",
+    "payments"
+  ],
+  "has_sql_data_insert": false,
+  "current_deployed_match": "UNVERIFIED",
+  "audit_completion": "Five supplied files static integration inspection completed;full/current/runtime/data/security audit NOT completed"
+}

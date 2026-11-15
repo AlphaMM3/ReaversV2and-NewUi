@@ -1,0 +1,43 @@
+{
+  "thread_id": "01a16527-fac5-7042-8337-d2defc08c93d",
+  "verified_on": "2026-10-31",
+  "source": "read_thread;selected exact user replies and immediately surrounding assistant context",
+  "items": [
+    {
+      "turn_id": "01a167d3-69d6-7dd1-a77b-144ded75b631",
+      "message_id": "01a167d3-6b07-77f2-b91e-24e2c07c6ecc",
+      "type": "userMessage",
+      "text": "ok\n"
+    },
+    {
+      "turn_id": "01a167d3-69d6-7dd1-a77b-144ded75b631",
+      "message_id": "msg_036a671a821fc03a016adb1781ae0881918099eb0476994678",
+      "type": "agentMessage",
+      "text": "আপনার “ok” অনুযায়ী শেষের তিনটি সুপারিশ অনুমোদিত ধরে সংরক্ষণ করছি: ছুটি শেষে pending follow-up-এর বাকি সময় চলবে, প্রথম ক্লাসে Late হলেও Returned ধরা হবে, এবং attendance শুধু enrollment কার্যকর থাকা সময়ে অনুষ্ঠিত ক্লাস ধরে হিসাব হবে।\n"
+    },
+    {
+      "turn_id": "01a167d3-69d6-7dd1-a77b-144ded75b631",
+      "message_id": "msg_036a671a821fc03a016adb17ab489c8191b2acc6f022ad0f29",
+      "type": "agentMessage",
+      "text": "তিনটি নিয়ম অনুমোদিত হিসেবে [সংযোজন v0.3-তে সংরক্ষণ করেছি](<C:/Users/MOHSIN MAHMUD/Documents/ChatGPT/Task of Mohsin Mahmud/IOM-Decision-Clarification-Excel-Mapping-v0.3.md>)।\n\n- ছুটি শেষে pending follow-up-এর **বাকি সময়টুকু** চলবে।\n- ছুটি শেষে **Late হলেও Returned** ধরা হবে।\n- Attendance শুধু **enrollment কার্যকর থাকা সময়ে অনুষ্ঠিত ক্লাস** ধরে হিসাব হবে।\n\nমূল ২০১টি সিদ্ধান্তের লেখা অক্ষত আছে। আগের ১২টি Proposed Enhancement এখনো Unapproved।"
+    },
+    {
+      "turn_id": "01a167d1-00f8-7571-9c7b-542fa3e57a15",
+      "message_id": "01a167d1-01be-7521-8841-3154931adbf7",
+      "type": "userMessage",
+      "text": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_c913f0b42e994792972ecd33a5b63a97\\\",0]\",\"question\":\"১. অনুমোদিত ছুটি চলাকালে attendance ৭৫%-এর নিচে গেলে কী হবে? শতাংশ হিসাব আগের সিদ্ধান্ত অনুযায়ী চলবে।\",\"answer\":\"শতাংশ দেখাবে; warning ও follow-up ছুটি শেষ পর্যন্ত স্থগিত\"},{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_c913f0b42e994792972ecd33a5b63a97\\\",1]\",\"question\":\"২. আগের মাসের pending low-attendance follow-up নতুন মাসে কীভাবে শেষ হবে?\",\"answer\":\"নতুন মাসে অন্তত ৩টি ক্লাসের পর attendance ৭৫% হলে নিজে বন্ধ হবে\"},{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_c913f0b42e994792972ecd33a5b63a97\\\",2]\",\"question\":\"৩. ‘এক সপ্তাহ অনুপস্থিত’ বলতে কোন নিয়মটি চান? অনুমোদিত ছুটিতে counter বন্ধ থাকবে।\",\"answer\":\"টানা ৭টি অনুষ্ঠিত ক্লাসে অনুপস্থিত\"}]\n</send_user_message_question_reply>\n"
+    },
+    {
+      "turn_id": "01a167d1-00f8-7571-9c7b-542fa3e57a15",
+      "message_id": "msg_036a671a821fc03a016adb16d326ec8191a5cd2a818efd488c",
+      "type": "agentMessage",
+      "text": "আপনার তিনটি উত্তর খসড়ায় নিশ্চিত নিয়ম হিসেবে সংরক্ষণ করছি: ছুটিতে শতাংশ দেখাবে কিন্তু warning/follow-up স্থগিত থাকবে; নতুন মাসে অন্তত তিনটি অনুষ্ঠিত ক্লাসের পর attendance ৭৫% হলে আগের pending low-attendance follow-up বন্ধ হবে; এবং অনুপস্থিতির alert হবে টানা সাতটি অনুষ্ঠিত ক্লাস মিস করলে।\n"
+    },
+    {
+      "turn_id": "01a167d1-00f8-7571-9c7b-542fa3e57a15",
+      "message_id": "msg_036a671a821fc03a016adb170ef0bc8191aa7b8337aa204592",
+      "type": "agentMessage",
+      "text": "আপনার তিনটি সিদ্ধান্ত [সংযোজন v0.2-তে সংরক্ষণ করেছি](<C:/Users/MOHSIN MAHMUD/Documents/ChatGPT/Task of Mohsin Mahmud/IOM-Decision-Clarification-Excel-Mapping-v0.2.md>)।\n\n১. **অনুমোদিত ছুটিতে:** শতাংশ দেখাবে; warning ও follow-up স্থগিত থাকবে।\n২. **আগের মাসের pending follow-up:** নতুন মাসে অন্তত তিনটি অনুষ্ঠিত ক্লাসের পর attendance ৭৫% বা বেশি হলে নিজে বন্ধ হবে।\n৩. **প্রথম অনুপস্থিতির alert:** টানা সাতটি অনুষ্ঠিত ক্লাসে অনুপস্থিত হলে হবে।\n\nতৃতীয়টি প্রথম alert-এর নিয়ম বদলেছে; প্রথম follow-up-এর পরের সাত দিনের escalation আপাতত অপরিবর্তিত।\n\nএবার পরের তিনটি বিষয় বলুন:\n\n- **ছুটির আগে pending follow-up-এর বাকি সময়:** ছুটি শেষে বাকি সময়টুকু চলবে, নাকি নতুন করে পুরো সময় দেওয়া হবে? আমার সুপারিশ: **বাকি সময়টুকু চলবে**।\n- **ছুটি শেষে প্রথম ক্লাসে Late:** শিক্ষার্থীকে Returned ধরা হবে? আমার সুপারিশ: **হ্যাঁ**।\n- **মাসের মাঝখানে ভর্তি/ব্যাচ বদল:** attendance শুধু ওই enrollment কার্যকর থাকা সময়ে অনুষ্ঠিত ক্লাস ধরে হবে? আমার সুপারিশ: **হ্যাঁ**।"
+    }
+  ]
+}

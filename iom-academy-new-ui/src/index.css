@@ -1,0 +1,439 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'SolaimanLipi';
+  src: url('/fonts/SolaimanLipi.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0964-0965, U+0980-09FF, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'SolaimanLipi';
+  src: url('/fonts/SolaimanLipi-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0964-0965, U+0980-09FF, U+200C-200D, U+25CC;
+}
+
+/* ============================================================
+   IOM ITQAAN ACADEMY — Design Tokens (Tailwind v4 @theme)
+   Royal Blue primary + IOM Teal secondary
+   ============================================================ */
+@theme {
+  /* Primary — Royal Blue */
+  --color-primary-50:  #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-500: #3b82f6;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #0f3d91;
+  --color-primary-950: #0a2660;
+
+  /* Secondary — IOM Teal */
+  --color-teal-50:  #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-500: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-teal-900: #134e4a;
+
+  /* Academy Emerald Branding */
+  --color-emerald-academy:       #0f3e32;
+  --color-emerald-academy-dark:  #0b2f26;
+  --color-emerald-academy-light: #e6f4f0;
+
+  /* Semantic status */
+  --color-success:  #16a34a;
+  --color-warning:  #d97706;
+  --color-danger:   #dc2626;
+  --color-info:     #0369a1;
+
+  /* Neutral surface */
+  --color-surface:  #ffffff;
+  --color-bg:       #f8fafc;
+  --color-border:   #e2e8f0;
+  --color-muted:    #6b7280;
+  --color-heading:  #0f172a;
+  --color-body:     #334155;
+
+  /* Typography — Inter / Plus Jakarta Sans for Latin, SolaimanLipi wherever Bangla appears */
+  --font-sans: 'Inter', 'SolaimanLipi', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', 'SolaimanLipi', system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', 'SolaimanLipi', monospace;
+  --font-bn:   'SolaimanLipi', sans-serif;
+
+  /* Larger, more legible UI type scale across all pages */
+  --text-xs:   0.8125rem;   /* 13px (up from 12px) */
+  --text-sm:   0.9375rem;   /* 15px (up from 14px) */
+  --text-base: 1.0625rem;   /* 17px (up from 16px) */
+  --text-lg:   1.25rem;     /* 20px (up from 18px) */
+  --text-xl:   1.375rem;    /* 22px (up from 20px) */
+  --text-2xl:  1.625rem;    /* 26px (up from 24px) */
+
+  /* Radius */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-2xl: 22px;
+  --radius-full: 9999px;
+
+  /* Sidebar */
+  --sidebar-width: 276px;
+  --topbar-height: 62px;
+}
+
+/* ============================================================
+   DYNAMIC THEME OVERRIDES
+   - Classic: Default IOM Royal Blue & Deep Teal
+   - Rose: Female Staff & Teachers Friendly (Soft Rose, Raspberry, Lavender)
+   - Cartoon: Kids & Children Delight (Warm Amber, Playful Sky & Mint)
+   - Midnight: Night Mode with Emerald & Slate
+   ============================================================ */
+:root[data-theme="rose"], [data-theme="rose"] {
+  --color-primary-50:  #fdf2f8;
+  --color-primary-100: #fce7f3;
+  --color-primary-200: #fbcfe8;
+  --color-primary-300: #f472b6;
+  --color-primary-500: #ec4899;
+  --color-primary-700: #be185d;
+  --color-primary-800: #9d174d;
+  --color-primary-900: #831843;
+  --color-primary-950: #500724;
+
+  --color-teal-50:  #faf5ff;
+  --color-teal-100: #f3e8ff;
+  --color-teal-500: #a855f7;
+  --color-teal-700: #7e22ce;
+  --color-teal-900: #581c87;
+
+  --color-emerald-academy:       #831843;
+  --color-emerald-academy-dark:  #701a35;
+  --color-emerald-academy-light: #fce7f3;
+
+  --color-bg:       #fffafc;
+  --color-border:   #fbcfe8;
+}
+
+:root[data-theme="cartoon"], [data-theme="cartoon"] {
+  --color-primary-50:  #fefce8;
+  --color-primary-100: #fef08a;
+  --color-primary-200: #fde047;
+  --color-primary-300: #facc15;
+  --color-primary-500: #f59e0b;
+  --color-primary-700: #d97706;
+  --color-primary-800: #b45309;
+  --color-primary-900: #78350f;
+  --color-primary-950: #451a03;
+
+  --color-teal-50:  #f0fdf4;
+  --color-teal-100: #dcfce7;
+  --color-teal-500: #22c55e;
+  --color-teal-700: #15803d;
+  --color-teal-900: #14532d;
+
+  --color-emerald-academy:       #0284c7;
+  --color-emerald-academy-dark:  #0369a1;
+  --color-emerald-academy-light: #e0f2fe;
+
+  --color-bg:       #fcfdfa;
+  --color-border:   #fed7aa;
+}
+
+:root[data-theme="midnight"], [data-theme="midnight"] {
+  --color-primary-50:  #064e3b;
+  --color-primary-100: #065f46;
+  --color-primary-200: #047857;
+  --color-primary-300: #059669;
+  --color-primary-500: #10b981;
+  --color-primary-700: #34d399;
+  --color-primary-800: #6ee7b7;
+  --color-primary-900: #a7f3d0;
+  --color-primary-950: #ecfdf5;
+
+  --color-emerald-academy:       #10b981;
+  --color-emerald-academy-dark:  #059669;
+  --color-emerald-academy-light: #064e3b;
+
+  --color-surface:  #0f172a;
+  --color-bg:       #020617;
+  --color-border:   #1e293b;
+  --color-heading:  #f8fafc;
+  --color-body:     #cbd5e1;
+  --color-muted:    #94a3b8;
+}
+
+/* ============================================================
+   Base reset / global styles
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-body);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.015em;
+}
+
+/* Unified crisp dropdown styling & typography inheritance across all pages */
+@layer base {
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--color-surface);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 15px 15px;
+    padding: 0.55rem 2.35rem 0.55rem 0.85rem;
+    min-height: 42px;
+    border-radius: var(--radius-md);
+    border: 1px solid #cbd5e1;
+    color: var(--color-heading);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+
+  /* Compact dropdown styles for tight grids & Hifz Daily Sheet cards */
+  select.h-9,
+  select.hifz-select {
+    min-height: 36px;
+    height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0.625rem;
+    padding-right: 1.75rem;
+    font-size: 0.75rem;
+    background-position: right 0.5rem center;
+    background-size: 13px 13px;
+  }
+
+  select.h-10 {
+    min-height: 40px;
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0.75rem;
+    padding-right: 2rem;
+    font-size: 0.8125rem;
+    background-position: right 0.65rem center;
+    background-size: 14px 14px;
+  }
+
+  select:hover:not(:disabled) {
+    border-color: #94a3b8;
+  }
+
+  select:focus {
+    outline: none;
+    border-color: var(--color-primary-700);
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.16);
+  }
+
+  select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f1f5f9;
+  }
+}
+
+button:not(:disabled),
+select:not(:disabled),
+a[href],
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   Scrollbar (thin, matches brand)
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+
+/* ============================================================
+   Focus ring (accessibility)
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-primary-700);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Utility: gradient backgrounds
+   ============================================================ */
+.bg-royal-gradient {
+  background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-700) 100%);
+}
+
+.bg-teal-gradient {
+  background: linear-gradient(135deg, var(--color-teal-700) 0%, var(--color-teal-500) 100%);
+}
+
+/* ============================================================
+   Sidebar nav active state
+   ============================================================ */
+.nav-item-active {
+  background-color: var(--color-primary-700);
+  color: white;
+  border-radius: var(--radius-md);
+}
+
+.nav-item-active svg {
+  color: white;
+}
+
+/* ============================================================
+   Status badge pill helpers
+   ============================================================ */
+.badge-present  { background: #dcfce7; color: #15803d; }
+.badge-absent   { background: #fee2e2; color: #b91c1c; }
+.badge-late     { background: #fef3c7; color: #b45309; }
+.badge-live     { background: #ccfbf1; color: #0f766e; }
+.badge-pending  { background: #fef3c7; color: #b45309; }
+.badge-approved { background: #dcfce7; color: #15803d; }
+.badge-returned { background: #fee2e2; color: #b91c1c; }
+.badge-draft    { background: #f1f5f9; color: #475569; }
+
+/* ============================================================
+   Form controls (consistent accessible styling)
+   ============================================================ */
+@layer components {
+  .iom-input,
+  .iom-textarea {
+    border-radius: var(--radius-md);
+    border: 1px solid #cbd5e1;
+    background: var(--color-surface);
+    color: var(--color-heading);
+    font-size: 0.9375rem;
+    padding: 0.55rem 0.85rem;
+    min-height: 42px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .iom-select {
+    border-radius: var(--radius-md);
+    border: 1px solid #cbd5e1;
+    background-color: var(--color-surface);
+    color: var(--color-heading);
+    font-size: 0.875rem;
+    padding: 0.45rem 2.25rem 0.45rem 0.75rem;
+    min-height: 38px;
+  }
+
+  .iom-input:focus,
+  .iom-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary-700);
+    box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.16);
+  }
+}
+
+/* ============================================================
+   Table
+   ============================================================ */
+.iom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.iom-table th {
+  background: var(--color-bg);
+  color: #475569;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.iom-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+
+.iom-table tr:hover td {
+  background: rgba(239, 246, 255, 0.65);
+}
+
+/* ============================================================
+   Attention queue card row
+   ============================================================ */
+.attention-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.attention-row:last-child { border-bottom: none; }
+.attention-row:hover { background: var(--color-primary-50); border-radius: var(--radius-md); padding-left: 10px; }
+
+/* ============================================================
+   Animate fade-in & Reduced Motion Accessibility
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.22s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
