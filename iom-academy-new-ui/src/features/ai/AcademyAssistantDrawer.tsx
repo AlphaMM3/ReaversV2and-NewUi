@@ -174,7 +174,8 @@ export default function AcademyAssistantDrawer({ user, isOpen, onClose }: Props)
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            aria-label="Close Assistant Drawer"
+            className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer min-h-[36px]"
           >
             <X className="w-4 h-4" />
           </button>
@@ -257,9 +258,9 @@ export default function AcademyAssistantDrawer({ user, isOpen, onClose }: Props)
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="অ্যাকাডেমির ডাটা সম্পর্কে কিছু জানতে চান?..."
-            className="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-300 bg-bg focus:outline-none focus:ring-2 focus:ring-primary-700/25 focus:border-primary-700 transition-all"
+            className="flex-1 px-3.5 py-2 min-h-[42px] text-base sm:text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-bg focus:outline-none focus:ring-2 focus:ring-primary-700/25 focus:border-primary-700 transition-all"
           />
-          <Button type="submit" size="sm" disabled={!input.trim()} className="px-3">
+          <Button type="submit" size="sm" disabled={!input.trim()} className="px-3.5 min-h-[42px]">
             <Send className="w-3.5 h-3.5" />
           </Button>
         </form>

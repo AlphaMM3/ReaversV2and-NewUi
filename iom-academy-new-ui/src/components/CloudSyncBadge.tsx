@@ -44,7 +44,7 @@ export default function CloudSyncBadge() {
           : 'ক্লিক করে ক্লাউড ডাটাবেসে সিঙ্ক করুন'
       }
       className={cn(
-        'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer shadow-3xs',
+        'inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[38px] rounded-xl border text-xs font-semibold transition-all cursor-pointer shadow-3xs flex-shrink-0',
         config.color,
       )}
     >

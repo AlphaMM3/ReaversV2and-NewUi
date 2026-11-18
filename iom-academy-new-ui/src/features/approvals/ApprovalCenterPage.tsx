@@ -332,7 +332,7 @@ export default function ApprovalCenterPage({ user }: { user: { name: string; rol
       </div>
 
       {/* Category Summary Chips */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-border/80 overflow-x-auto no-scrollbar">
         {[
           { id: 'all', label: `All Pending (${totalPending})`, icon: CheckSquare },
           { id: 'payment_proofs', label: `bKash/Nagad Proofs (${pendingProofs.length})`, icon: CreditCard },
@@ -345,18 +345,20 @@ export default function ApprovalCenterPage({ user }: { user: { name: string; rol
           { id: 'star_students', label: `Star Students Review (${starStudents.length})`, icon: Trophy },
         ].map((chip) => {
           const Icon = chip.icon
+          const active = category === chip.id
           return (
             <button
               key={chip.id}
               type="button"
               onClick={() => setCategory(chip.id as ApprovalCategory)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${
-                category === chip.id
-                  ? 'bg-primary-700 text-white'
-                  : 'bg-surface border border-border text-body hover:bg-bg'
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap min-h-[38px] transition-all cursor-pointer ${
+                active
+                  ? 'bg-white dark:bg-slate-900 text-primary-700 shadow-3xs'
+                  : 'text-muted hover:text-heading hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" /> {chip.label}
+              <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+              <span>{chip.label}</span>
             </button>
           )
         })}

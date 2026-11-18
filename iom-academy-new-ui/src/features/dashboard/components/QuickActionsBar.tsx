@@ -26,9 +26,9 @@ export default function QuickActionsBar({ onNavigate }: Props) {
   ]
 
   return (
-    <div className="bg-surface rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-3xs space-y-2.5">
+    <div className="bg-surface rounded-2xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-4 shadow-3xs space-y-2.5">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+        <h3 className="text-xs font-bold text-heading uppercase tracking-wider">
           একাডেমিক অ্যাকশন শর্টকাট (Quick Actions)
         </h3>
         <span className="text-[11px] text-muted">এক ক্লিকে প্রয়োজনীয় মডিউলে প্রবেশ</span>
@@ -41,13 +41,13 @@ export default function QuickActionsBar({ onNavigate }: Props) {
               key={act.route}
               type="button"
               onClick={() => onNavigate(act.route)}
-              className={`p-2.5 rounded-xl border border-slate-200/90 bg-white hover:bg-slate-50 transition-all flex flex-col items-center justify-center text-center gap-1.5 cursor-pointer shadow-3xs active:scale-95 ${act.bg}`}
+              className={`p-2.5 min-h-[72px] rounded-xl border border-slate-200/90 dark:border-slate-800 bg-surface hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all flex flex-col items-center justify-center text-center gap-1.5 cursor-pointer shadow-3xs active:scale-95 ${act.bg}`}
             >
-              <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-primary-700">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-700 dark:text-primary-300">
                 <Icon className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-xs font-bold text-slate-800 leading-tight">{act.label}</p>
+                <p className="text-xs font-bold text-heading leading-tight">{act.label}</p>
                 <p className="text-[10px] text-muted leading-tight mt-0.5">{act.sub}</p>
               </div>
             </button>

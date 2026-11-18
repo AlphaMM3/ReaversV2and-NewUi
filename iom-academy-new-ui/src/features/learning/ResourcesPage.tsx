@@ -11,19 +11,21 @@ import {
   DEFAULT_BOOKSHELF_ITEMS,
   type BookshelfItem,
 } from '@/lib/superAdminStore'
+import type { LucideIcon } from 'lucide-react'
 import {
   BookOpen, FolderOpen, Plus, ExternalLink, MessageCircle, Send, Search,
   Trash2, Library, BookMarked, Sparkles, Layers,
+  Mic, Book, FileText, ClipboardList,
 } from 'lucide-react'
 
 // Category labels and theme styles
-const CATEGORY_META: Record<BookshelfItem['category'], { label: string; icon: string }> = {
-  quran: { label: 'কুরআনুল কারীম', icon: '📖' },
-  tajweed: { label: 'তাজবীদ ও কিরাত', icon: '🎙️' },
-  kitab: { label: 'পাঠ্যবই ও কায়েদা', icon: '📗' },
-  dua_hadith: { label: 'মাসআলা ও দুআ', icon: '🤲' },
-  worksheet: { label: 'অনুশীলন শিট', icon: '📝' },
-  syllabus: { label: 'সিলেবাস ও রুটিন', icon: '📋' },
+const CATEGORY_META: Record<BookshelfItem['category'], { label: string; icon: LucideIcon }> = {
+  quran: { label: 'কুরআনুল কারীম', icon: BookOpen },
+  tajweed: { label: 'তাজবীদ ও কিরাত', icon: Mic },
+  kitab: { label: 'পাঠ্যবই ও কায়েদা', icon: Book },
+  dua_hadith: { label: 'মাসআলা ও দুআ', icon: BookMarked },
+  worksheet: { label: 'অনুশীলন শিট', icon: FileText },
+  syllabus: { label: 'সিলেবাস ও রুটিন', icon: ClipboardList },
 }
 
 const COVER_STYLES: Record<BookshelfItem['cover_theme'], {
@@ -257,33 +259,36 @@ export default function ResourcesPage({ role }: { role: string }) {
       <Card className="rounded-2xl border-border shadow-2xs">
         <CardContent className="py-3 px-4 flex flex-col md:flex-row items-center justify-between gap-3">
           {/* Category Chips */}
-          <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full md:w-auto pb-1 md:pb-0">
             <button
               type="button"
               onClick={() => setCategoryFilter('all')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
+              className={`px-3 py-1.5 min-h-[36px] rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
                 categoryFilter === 'all'
-                  ? 'bg-primary-700 text-white border-primary-700'
-                  : 'bg-surface text-body border-border hover:bg-slate-50'
+                  ? 'bg-primary-700 text-white border-primary-700 shadow-3xs'
+                  : 'bg-surface text-body border-border hover:bg-slate-50 dark:hover:bg-slate-800'
               }`}
             >
               সকল ক্যাটাগরি ({shelfBooks.length})
             </button>
-            {Object.entries(CATEGORY_META).map(([key, meta]) => (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setCategoryFilter(key)}
-                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
-                  categoryFilter === key
-                    ? 'bg-primary-700 text-white border-primary-700'
-                    : 'bg-surface text-body border-border hover:bg-slate-50'
-                }`}
-              >
-                <span className="mr-1">{meta.icon}</span>
-                {meta.label}
-              </button>
-            ))}
+            {Object.entries(CATEGORY_META).map(([key, meta]) => {
+              const Icon = meta.icon
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setCategoryFilter(key)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer border ${
+                    categoryFilter === key
+                      ? 'bg-primary-700 text-white border-primary-700 shadow-3xs'
+                      : 'bg-surface text-body border-border hover:bg-slate-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>{meta.label}</span>
+                </button>
+              )
+            })}
           </div>
 
           {/* Search Box */}
@@ -339,8 +344,9 @@ export default function ResourcesPage({ role }: { role: string }) {
                       {/* Header in Book */}
                       <div className="pl-2">
                         <div className="flex items-center justify-between gap-2 mb-2">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border backdrop-blur-xs ${style.badgeBg}`}>
-                            {categoryMeta.icon} {categoryMeta.label}
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border backdrop-blur-xs flex items-center gap-1 ${style.badgeBg}`}>
+                            <categoryMeta.icon className="w-3 h-3 flex-shrink-0" />
+                            <span>{categoryMeta.label}</span>
                           </span>
                           <span className="text-[10px] font-mono text-white/80 bg-black/30 px-1.5 py-0.5 rounded">
                             {book.file_size || book.file_type.toUpperCase()}
@@ -506,12 +512,12 @@ export default function ResourcesPage({ role }: { role: string }) {
                 onChange={(e) => setNewCategory(e.target.value as BookshelfItem['category'])}
                 className="w-full text-xs py-2 px-3 rounded-xl border border-border bg-surface"
               >
-                <option value="quran">📖 কুরআনুল কারীম</option>
-                <option value="tajweed">🎙️ তাজবীদ ও কিরাত</option>
-                <option value="kitab">📗 পাঠ্যবই ও কায়েদা</option>
-                <option value="dua_hadith">🤲 মাসআলা ও দুআ</option>
-                <option value="worksheet">📝 অনুশীলন শিট ও খাতা</option>
-                <option value="syllabus">📋 বার্ষিক সিলেবাস ও রুটিন</option>
+                <option value="quran">কুরআনুল কারীম</option>
+                <option value="tajweed">তাজবীদ ও কিরাত</option>
+                <option value="kitab">পাঠ্যবই ও কায়েদা</option>
+                <option value="dua_hadith">মাসআলা ও দুআ</option>
+                <option value="worksheet">অনুশীলন শিট ও খাতা</option>
+                <option value="syllabus">বার্ষিক সিলেবাস ও রুটিন</option>
               </select>
             </div>
           </div>

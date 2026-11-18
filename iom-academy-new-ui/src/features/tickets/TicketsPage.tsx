@@ -255,26 +255,30 @@ export default function TicketsPage({ user }: { user: CurrentUser }) {
 
         <div className="flex items-center gap-2 flex-wrap">
           {!isGuardian && (
-            <div className="flex items-center gap-1 p-1 rounded-xl border border-border bg-surface">
+            <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/70 dark:border-slate-700/80 text-xs">
               <button
                 type="button"
                 onClick={() => setTab('tickets')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer ${
-                  tab === 'tickets' ? 'bg-primary-700 text-white' : 'text-body hover:text-heading'
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all ${
+                  tab === 'tickets'
+                    ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Ticket className="w-3.5 h-3.5 inline mr-1" />
-                Tickets ({visibleTickets.length})
+                <Ticket className="w-3.5 h-3.5" />
+                টিকিট ({visibleTickets.length})
               </button>
               <button
                 type="button"
                 onClick={() => setTab('notices')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer ${
-                  tab === 'notices' ? 'bg-primary-700 text-white' : 'text-body hover:text-heading'
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all ${
+                  tab === 'notices'
+                    ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
-                <Megaphone className="w-3.5 h-3.5 inline mr-1" />
-                Staff Notices ({visibleNotices.length})
+                <Megaphone className="w-3.5 h-3.5" />
+                স্টাফ নোটিশ ({visibleNotices.length})
               </button>
             </div>
           )}

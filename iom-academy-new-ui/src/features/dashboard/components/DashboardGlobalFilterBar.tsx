@@ -53,8 +53,8 @@ export default function DashboardGlobalFilterBar({
         </div>
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap">
-        <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200/80">
+      <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap max-w-full">
+        <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700 overflow-x-auto max-w-full no-scrollbar flex-shrink-0">
           {ranges.map((r) => {
             const active = selectedRange === r.id
             return (
@@ -65,10 +65,10 @@ export default function DashboardGlobalFilterBar({
                   onRangeChange(r.id)
                   if (r.id === 'custom') setShowCustomModal(true)
                 }}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap min-h-[38px] flex items-center ${
                   active
-                    ? 'bg-white text-primary-700 shadow-3xs border border-slate-200/60 font-bold'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs border border-slate-200/60 dark:border-slate-700 font-bold'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
                 {r.label}

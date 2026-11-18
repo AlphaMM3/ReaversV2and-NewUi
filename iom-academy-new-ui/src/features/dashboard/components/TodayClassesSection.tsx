@@ -109,13 +109,13 @@ export default function TodayClassesSection({
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+                  <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                     {cls.meeting_url ? (
                       <a
                         href={cls.meeting_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-700 text-white text-xs font-semibold hover:bg-primary-800 shadow-3xs"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[38px] rounded-lg bg-primary-700 hover:bg-primary-800 text-white text-xs font-semibold shadow-3xs transition-colors"
                       >
                         <ExternalLink className="w-3.5 h-3.5" /> জয়েন / মনিটর
                       </a>
@@ -126,7 +126,7 @@ export default function TodayClassesSection({
                     <button
                       type="button"
                       onClick={() => onNavigate(`#/attendance?classId=${cls.id}`)}
-                      className="text-xs font-semibold text-primary-700 hover:underline cursor-pointer"
+                      className="min-h-[38px] px-2 flex items-center text-xs font-semibold text-primary-700 dark:text-primary-400 hover:underline cursor-pointer"
                     >
                       হাজিরা →
                     </button>

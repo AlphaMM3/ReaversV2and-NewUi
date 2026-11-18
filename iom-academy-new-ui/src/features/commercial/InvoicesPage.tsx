@@ -407,53 +407,63 @@ export default function InvoicesPage({ role }: { role: string }) {
         </div>
       </div>
 
-      {/* Super Admin Finance Sub-tabs */}
+      {/* Unified Segmented Finance Tabs (Mobile-Scrollable) */}
       {isAdmin && (
-        <div className="flex gap-2 flex-wrap">
+        <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/70 dark:border-slate-700/80 text-xs overflow-x-auto max-w-full gap-1 no-scrollbar flex-wrap sm:flex-nowrap">
           <button
             type="button"
             onClick={() => setTab('list')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-              tab === 'list' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body'
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+              tab === 'list'
+                ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            <Receipt className="w-3.5 h-3.5" /> Invoices &amp; Receipts
+            <Receipt className="w-3.5 h-3.5" /> ইনভয়েস ও রসিদ ({invoices.length})
           </button>
           <button
             type="button"
             onClick={() => setTab('bulk')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-              tab === 'bulk' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body'
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+              tab === 'bulk'
+                ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            <Zap className="w-3.5 h-3.5" /> Bulk Monthly Billing
+            <Zap className="w-3.5 h-3.5" /> বাল্ক মাসিক বিলিং
           </button>
           <button
             type="button"
             onClick={() => setTab('reminders')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-              tab === 'reminders' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body'
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+              tab === 'reminders'
+                ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            <MessageCircle className="w-3.5 h-3.5" /> WA/TG Reminder Sheet
+            <MessageCircle className="w-3.5 h-3.5" /> তাগাদা শিট (WA/SMS)
           </button>
           <button
             type="button"
             onClick={() => setTab('plans')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-              tab === 'plans' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body'
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+              tab === 'plans'
+                ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            <Percent className="w-3.5 h-3.5" /> Fee Plans &amp; Discounts
+            <Percent className="w-3.5 h-3.5" /> ফি প্ল্যান ও ছাড়
           </button>
           <button
             type="button"
             onClick={() => setTab('references')}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold ${
-              tab === 'references' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body'
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+              tab === 'references'
+                ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" /> TrxID Verification Queue
+            <ShieldCheck className="w-3.5 h-3.5" /> TrxID ভেরিফিকেশন কিউ
           </button>
         </div>
       )}

@@ -683,43 +683,51 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 flex-wrap">
+      {/* Unified Segmented Tabs (Mobile-Scrollable & No Slop) */}
+      <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/70 dark:border-slate-700/80 text-xs overflow-x-auto max-w-full gap-1 no-scrollbar flex-wrap sm:flex-nowrap">
         <button
           type="button"
           onClick={() => setTab('roster')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'roster' ? 'bg-emerald-academy text-white shadow-xs' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'roster'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Briefcase className="w-3.5 h-3.5" /> 👨‍🏫 শিক্ষক ও স্টাফ প্রোফাইল ({staffMembers.length})
+          <Briefcase className="w-3.5 h-3.5" /> শিক্ষক ও স্টাফ প্রোফাইল ({staffMembers.length})
         </button>
 
         <button
           type="button"
           onClick={() => setTab('assign')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'assign' ? 'bg-emerald-academy text-white shadow-xs' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'assign'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Layers className="w-3.5 h-3.5" /> 📋 ক্লাস, ব্যাচ ও বিভাগ দায়িত্ব বণ্টন ({batches.length})
+          <Layers className="w-3.5 h-3.5" /> ক্লাস ও ব্যাচ দায়িত্ব বণ্টন ({batches.length})
         </button>
 
         <button
           type="button"
           onClick={() => setTab('zimmadar')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'zimmadar' ? 'bg-emerald-academy text-white shadow-xs' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'zimmadar'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Shield className="w-3.5 h-3.5" /> 🛡️ জিম্মাদার কর্মশালা ও দায়িত্ব মনিটর
+          <Shield className="w-3.5 h-3.5" /> জিম্মাদার কর্মশালা ও দায়িত্ব
         </button>
 
         <button
           type="button"
           onClick={() => setTab('scorecard')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'scorecard' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'scorecard'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <Clock className="w-3.5 h-3.5" /> পারফরম্যান্স স্কোরকার্ড
@@ -728,8 +736,10 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
         <button
           type="button"
           onClick={() => setTab('leaves')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'leaves' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'leaves'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <CalendarOff className="w-3.5 h-3.5" /> শিক্ষক ছুটি ও বদলি ({pendingLeavesCount})
@@ -738,8 +748,10 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
         <button
           type="button"
           onClick={() => setTab('reports')}
-          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${
-            tab === 'reports' ? 'bg-primary-700 text-white' : 'bg-surface border border-border text-body hover:bg-slate-50'
+          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-all whitespace-nowrap min-h-[38px] ${
+            tab === 'reports'
+              ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
           <FileCheck2 className="w-3.5 h-3.5" /> ক্লাস রিপোর্ট SLA ({overdueReportCount})
@@ -891,7 +903,7 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
                       {/* Assigned Responsibilities */}
                       <div className="mb-3">
                         <span className="text-[11px] font-bold text-slate-500 block mb-1">
-                          📋 দায়িত্ব ও করণীয়:
+                          দায়িত্ব ও করণীয়:
                         </span>
                         <ul className="text-xs text-slate-700 space-y-1 list-none pl-0">
                           {staff.responsibilities.map((resp, i) => (
@@ -1004,10 +1016,10 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
                         onChange={(e) => setFormRole(e.target.value as any)}
                         className="w-full px-3 py-2 text-xs font-semibold rounded-xl border border-border bg-slate-50 cursor-pointer"
                       >
-                        <option value="zimmadar">🏛️ কোর্স ও বিভাগীয় জিম্মাদার</option>
-                        <option value="teacher">👳‍♂️ সিনিয়র ক্লাস উস্তাদ</option>
-                        <option value="supervisor">🔍 প্রধান পরীক্ষক / মুসাহহিহ</option>
-                        <option value="examiner">📋 সহকারী প্রশিক্ষক</option>
+                        <option value="zimmadar">কোর্স ও বিভাগীয় জিম্মাদার</option>
+                        <option value="teacher">সিনিয়র ক্লাস উস্তাদ</option>
+                        <option value="supervisor">প্রধান পরীক্ষক / মুসাহহিহ</option>
+                        <option value="examiner">সহকারী প্রশিক্ষক</option>
                       </select>
                     </div>
                   </div>

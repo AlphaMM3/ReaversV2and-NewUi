@@ -60,12 +60,12 @@ interface AttendancePillsProps {
 
 export function AttendancePills({ value, onChange, disabled }: AttendancePillsProps) {
   const opts: { v: 'P' | 'A' | 'L'; label: string; active: string; inactive: string }[] = [
-    { v: 'P', label: 'P', active: 'bg-green-600 text-white', inactive: 'bg-green-50 text-green-700 hover:bg-green-100' },
-    { v: 'A', label: 'A', active: 'bg-red-600 text-white',   inactive: 'bg-red-50 text-red-700 hover:bg-red-100' },
-    { v: 'L', label: 'L', active: 'bg-amber-500 text-white', inactive: 'bg-amber-50 text-amber-700 hover:bg-amber-100' },
+    { v: 'P', label: 'P', active: 'bg-emerald-600 text-white', inactive: 'bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100' },
+    { v: 'A', label: 'A', active: 'bg-red-600 text-white',   inactive: 'bg-red-50/80 dark:bg-red-950/40 text-red-700 dark:text-red-300 hover:bg-red-100' },
+    { v: 'L', label: 'L', active: 'bg-amber-500 text-white', inactive: 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100' },
   ]
   return (
-    <div className="inline-flex rounded-lg overflow-hidden border border-border">
+    <div className="inline-flex rounded-xl overflow-hidden border border-border shadow-3xs">
       {opts.map((o) => (
         <button
           key={o.v}
@@ -73,7 +73,7 @@ export function AttendancePills({ value, onChange, disabled }: AttendancePillsPr
           disabled={disabled}
           onClick={() => onChange(o.v)}
           className={cn(
-            'px-3 py-1 text-xs font-bold transition-colors',
+            'px-3.5 py-1.5 min-h-[36px] min-w-[36px] text-xs font-bold transition-all cursor-pointer flex items-center justify-center',
             value === o.v ? o.active : o.inactive,
             disabled && 'opacity-50 cursor-not-allowed',
           )}

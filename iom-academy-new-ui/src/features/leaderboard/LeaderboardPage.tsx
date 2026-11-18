@@ -445,7 +445,8 @@ export default function LeaderboardPage() {
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-black text-heading tracking-tight flex items-center justify-center gap-2">
-          🏆 Honor Roll &amp; Leaderboards
+          <Trophy className="w-7 h-7 text-amber-500 flex-shrink-0" />
+          <span>Honor Roll &amp; Leaderboards</span>
         </h1>
         <p className="text-xs sm:text-sm text-muted max-w-lg mx-auto mt-1">
           উপস্থিতি, সবক তিলাওয়াত, হোমওয়ার্ক ও নিয়মিত আমল মূল্যায়নে সম্মানিত মেধাবী শিক্ষার্থীদের তালিকা।
