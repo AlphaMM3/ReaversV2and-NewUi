@@ -73,22 +73,23 @@ export function useCloudDatabaseSync() {
   const syncNow = useCallback(async () => {
     setStatus((prev) => ({ ...prev, state: 'syncing', error: null }))
     const result = await syncWithCloudDatabase()
-    if (result.success) {
-      setStatus({
-        state: 'synced',
-        lastSyncedAt: new Date(),
-        pendingCount: 0,
-        error: null,
-      })
-    } else {
-      setStatus({
+    setStatus((prev) => {
+      if (result.success) {
+        return {
+          state: 'synced',
+          lastSyncedAt: new Date(),
+          pendingCount: 0,
+          error: null,
+        }
+      }
+      return {
         state: typeof window !== 'undefined' && !window.navigator.onLine ? 'offline' : 'pending',
-        lastSyncedAt: status.lastSyncedAt,
+        lastSyncedAt: prev.lastSyncedAt,
         pendingCount: getPendingSyncKeys().length,
         error: result.error || null,
-      })
-    }
-  }, [status.lastSyncedAt])
+      }
+    })
+  }, [])
 
   useEffect(() => {
     const handleOnline = () => {
