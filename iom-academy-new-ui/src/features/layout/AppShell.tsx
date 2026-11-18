@@ -27,6 +27,7 @@ import {
 import ThemeSwitcher from '@/components/ThemeSwitcher'
 import CloudSyncBadge from '@/components/CloudSyncBadge'
 import AcademyAssistantDrawer from '@/features/ai/AcademyAssistantDrawer'
+import { APP_VERSION } from '@/lib/version'
 import { SidebarNavItem, SidebarGroup, getNavIcon } from './Sidebar'
 import AnnotatorOverlay, { loadAnnotations } from '@/components/AnnotatorOverlay'
 import { useAttentionQueue, setAttentionDocked } from '@/lib/attentionNotifications'
@@ -377,12 +378,18 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
 
               {!isCollapsed && (
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-[15px] font-extrabold tracking-tight text-slate-900 group-hover:text-primary-800 transition-colors font-heading leading-tight">
                       IOM <span className="bg-gradient-to-r from-primary-700 to-teal-700 bg-clip-text text-transparent">Itqaan</span>
                     </span>
                     <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-primary-50 text-primary-700 border border-primary-200/70 shadow-3xs tracking-wider uppercase">
                       Portal
+                    </span>
+                    <span
+                      title="অ্যাকাডেমি সিস্টেম রিলিজ ভার্সন — রোলব্যাকের জন্য রেফারেন্স"
+                      className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-mono font-bold bg-slate-100 text-slate-700 border border-slate-200/90 shadow-3xs"
+                    >
+                      {APP_VERSION}
                     </span>
                   </div>
                   <p className="text-[10.5px] font-medium text-slate-500 truncate flex items-center gap-1 mt-0.5">
