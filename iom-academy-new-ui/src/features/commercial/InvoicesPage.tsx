@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/KpiCard'
 import { StudentAvatar, Student360Drawer, type StudentSummaryTarget } from '@/components/Student360Drawer'
 import { useToast } from '@/components/ui/Toast'
 import { INVOICE_MACHINE, getStatusMeta } from '@/lib/stateMachines'
-import { buildInvoiceText, buildWhatsAppUrl, buildTelegramShareUrl } from '@/lib/messaging'
+import { buildInvoiceText, buildWhatsAppUrl, buildTelegramShareUrl, buildSmsUrl, buildFeeReminderSmsMessage } from '@/lib/messaging'
 import { getDhakaDateString } from '@/lib/utils'
 import {
   ACADEMY_BRANDING_KEY,
@@ -21,7 +21,7 @@ import {
 } from '@/lib/superAdminStore'
 import {
   Receipt, Plus, CheckCircle, XCircle, MessageCircle, Send, Printer, Copy, X,
-  Layers, Percent, ShieldCheck, Zap,
+  Layers, Percent, ShieldCheck, Zap, Smartphone,
 } from 'lucide-react'
 
 type InvoiceTab = 'list' | 'bulk' | 'reminders' | 'plans' | 'references'
@@ -1231,12 +1231,30 @@ export default function InvoicesPage({ role }: { role: string }) {
                             <p className="text-[11px] text-body line-clamp-2">{msg}</p>
                           </td>
                           <td>
-                            <div className="flex items-center gap-1.5">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <a
+                                href={buildSmsUrl(
+                                  targetPhone,
+                                  buildFeeReminderSmsMessage({
+                                    student_name: inv.student_name,
+                                    billing_month: inv.billing_month,
+                                    amount_due: bal,
+                                    due_date: inv.due_date,
+                                    bkash_number: branding.bkashNumber,
+                                    nagad_number: branding.nagadNumber,
+                                  }),
+                                )}
+                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 shadow-3xs transition-transform active:scale-95"
+                                title="অভিভাবকের মোবাইলে ১-ক্লিক SMS পাঠান"
+                              >
+                                <Smartphone className="w-3.5 h-3.5" /> SMS
+                              </a>
                               <a
                                 href={buildWhatsAppUrl(msg, targetPhone)}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-green-600 text-white text-xs font-semibold hover:bg-green-700"
+                                className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-green-600 text-white text-xs font-semibold hover:bg-green-700 shadow-3xs transition-transform active:scale-95"
+                                title="অভিভাবকের হোয়াটসঅ্যাপে মেসেজ পাঠান"
                               >
                                 <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
                               </a>

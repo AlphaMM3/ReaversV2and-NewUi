@@ -40,123 +40,25 @@ import {
   TrendingUp, Maximize2, Minimize2, Trophy, ArrowUpRight, ChevronDown, ChevronUp,
 } from 'lucide-react'
 
+import type {
+  InvoiceMini,
+  PayableMini,
+  LeaveMini,
+  AdmissionMini,
+  FollowupMini,
+  MonthlyAttendanceRow,
+  EnrollmentMini,
+  UserMini,
+  AcademicSessionMini,
+  AssessmentMini,
+  ResourceMini,
+  AnnouncementMini,
+  TelegramStatus,
+} from './types'
+import { useAcademicMetrics, useFinancialMetrics } from './hooks/useDashboardMetrics'
+
 interface Props {
   user: CurrentUser
-}
-
-interface InvoiceMini {
-  id: number
-  enrollment_id: number
-  contract_id: number | null
-  invoice_number: string
-  student_name: string
-  course_title: string
-  batch_name: string
-  billing_month: string
-  amount_due: string | number
-  amount_paid: string | number
-  due_date: string
-  status: 'unpaid' | 'partially_paid' | 'paid'
-  payment_reference_code: string | null
-  notes: string | null
-}
-
-interface PayableMini {
-  id: number
-  billing_month: string
-  payable_amount: string | number
-  status: string
-  course_title?: string | null
-}
-
-interface MonthlyAttendanceRow {
-  enrollment_id: number
-  student_name: string
-  course_title: string
-  batch_name: string
-  delivery_mode?: string
-  held_classes: number
-  present_count: number
-  late_count: number
-  absent_count: number
-  attendance_pct: number | null
-}
-
-interface EnrollmentMini {
-  id: number
-  batch_id: number
-  batch_name?: string
-  course_title?: string
-  delivery_mode?: string
-  status: string
-  start_date?: string
-  created_at?: string
-}
-
-interface UserMini {
-  id: number
-  name: string
-  role: string
-  active?: number | boolean
-}
-
-interface LeaveMini {
-  id: number
-  enrollment_id: number
-  student_name?: string
-  start_date: string
-  end_date: string
-  status: string
-}
-
-interface AdmissionMini {
-  id: number
-  applicant_name: string
-  status: string
-  created_at?: string
-}
-
-interface FollowupMini {
-  id: number
-  enrollment_id: number
-  student_name?: string
-  course_title?: string
-  status: string
-}
-
-interface AcademicSessionMini {
-  id: number
-  label: string
-  start_date: string
-  end_date: string
-}
-
-interface AssessmentMini {
-  id: number
-  title: string
-  batch_name?: string
-  course_title?: string
-  max_marks: number
-  published: number | boolean
-}
-
-interface ResourceMini {
-  id: number
-  title: string
-  course_title?: string
-  url: string
-}
-
-interface AnnouncementMini {
-  id: number
-  title: string
-  body: string
-  created_at: string
-}
-
-interface TelegramStatus {
-  linked: boolean
-  configuration_required: boolean
 }
 
 function buildRecentMonths(endMonthKey: string, count: number): string[] {
@@ -235,6 +137,7 @@ export default function AdminDashboard({ user }: Props) {
 
   const { data: summary, isLoading: loadingSummary } = useQuery<DashboardSummary>({
     queryKey: ['summary'],
+    staleTime: 5 * 60 * 1000,
     queryFn: () =>
       dashboardApi.summary().catch(() => ({
         students: 48,
@@ -251,6 +154,7 @@ export default function AdminDashboard({ user }: Props) {
 
   const { data: monthClasses = [], isLoading: loadingClasses } = useQuery<ClassSession[]>({
     queryKey: ['dashboard-month-classes', calMonthKey],
+    staleTime: 5 * 60 * 1000,
     queryFn: () =>
       api
         .get<ClassSession[] | { items?: ClassSession[] }>(
@@ -445,89 +349,58 @@ export default function AdminDashboard({ user }: Props) {
     queryFn: () => api.get<TelegramStatus>('/telegram').catch(() => ({ linked: false, configuration_required: true })),
   })
 
-  // ── Derived Operational Metrics ───────────────────────────
-  const todayClasses = useMemo(
-    () => monthClasses.filter((c) => c.scheduled_start.slice(0, 10) === today),
-    [monthClasses, today],
-  )
-
-  const upcomingClasses = useMemo(
-    () => monthClasses.filter((c) => c.scheduled_start.slice(0, 10) >= today && c.status === 'scheduled').slice(0, 4),
-    [monthClasses, today],
-  )
-
-  const classCountByDay = useMemo(() => {
-    const map = new Map<string, number>()
-    for (const c of monthClasses) {
-      const d = c.scheduled_start.slice(0, 10)
-      map.set(d, (map.get(d) ?? 0) + 1)
-    }
-    return map
-  }, [monthClasses])
-
-  const unverifiedEnded = todayClasses.filter((c) => c.status === 'ended' && !c.held_verified).length
-  const leaveQueueCount = leaves.filter((l) => l.status === 'pending').length
-  const admissionQueueCount = admissions.filter((a) => a.status === 'pending').length
-  const openFollowupCount = openFollowups.filter((f) => f.status !== 'closed').length
-  const unpaidInvoices = invoices.filter((i) => i.status !== 'paid')
-
-  const totalCollectedAll = invoices.reduce((s, i) => s + Number(i.amount_paid || 0), 0)
-  const totalBilledAll = invoices.reduce((s, i) => s + Number(i.amount_due || 0), 0)
-  const totalOutstanding = Math.max(0, totalBilledAll - totalCollectedAll)
-
-  const thisMonthInvoices = invoices.filter((i) => i.billing_month === monthKey)
-  const monthCollected = thisMonthInvoices.reduce((s, i) => s + Number(i.amount_paid || 0), 0)
-  const monthBilled = thisMonthInvoices.reduce((s, i) => s + Number(i.amount_due || 0), 0)
-  const monthCollectionPct = monthBilled > 0 ? Math.round((monthCollected / monthBilled) * 100) : 0
-
   const [expenses] = useLocalStore<AcademyExpense[]>(EXPENSES_KEY, [])
   const [teacherLeaves] = useLocalStore<TeacherLeaveRecord[]>(TEACHER_LEAVES_KEY, [])
   const { data: supportTickets = [] } = useSupportTickets()
   const [starStudents] = useLocalStore<StarStudentAward[]>(STAR_STUDENTS_KEY, DEFAULT_STAR_STUDENTS)
 
+  // ── Modular Hook Selectors (AM-Architecture Optimization) ─
+  const {
+    todayClasses,
+    upcomingClasses,
+    classCountByDay,
+    unverifiedEnded,
+    leaveQueueCount,
+    admissionQueueCount,
+    openFollowupCount,
+    pendingTeacherLeaves,
+    attendanceStats,
+  } = useAcademicMetrics({
+    monthClasses,
+    leaves,
+    admissions,
+    openFollowups,
+    teacherLeaves,
+    monthlyAttendance,
+    today,
+  })
+
+  const {
+    unpaidInvoices,
+    totalCollectedAll,
+    totalOutstanding,
+    thisMonthInvoices,
+    monthCollected,
+    monthBilled,
+    monthCollectionPct,
+    monthPayablesTotal,
+    monthOperatingExpenses,
+    totalPayablesAll,
+    pendingPayables,
+    pendingPayablesSum,
+    netBalanceMonth,
+  } = useFinancialMetrics({
+    invoices,
+    payables,
+    expenses,
+    monthKey,
+  })
+
   const isSuperAdminRole = user.role === 'central_admin' || user.role === 'branch_admin'
   const pendingTickets = supportTickets.filter((t) => t.status === 'open' || t.status === 'in_progress')
-
-  const monthPayablesTotal = payables
-    .filter((p) => p.billing_month === monthKey)
-    .reduce((s, p) => s + Number(p.payable_amount || 0), 0)
-  const monthOperatingExpenses = expenses
-    .filter((e) => e.month === monthKey)
-    .reduce((s, e) => s + Number(e.amount || 0), 0)
-  const totalPayablesAll = payables.reduce((s, p) => s + Number(p.payable_amount || 0), 0)
-  const pendingPayables = payables.filter((p) => p.status !== 'paid')
-  const pendingPayablesSum = pendingPayables.reduce((s, p) => s + Number(p.payable_amount || 0), 0)
-  const netBalanceMonth = monthCollected - monthPayablesTotal - monthOperatingExpenses
-  const pendingTeacherLeaves = teacherLeaves.filter((l) => l.status === 'pending').length
-
   const teacherCount = users.filter((u) => u.role === 'teacher').length
   const zimmadarCount = users.filter((u) => u.role === 'zimmadar').length
   const guardianCount = users.filter((u) => u.role.startsWith('guardian')).length
-
-  // Attendance aggregates from /attendance/monthly
-  const attendanceStats = useMemo(() => {
-    const valid = monthlyAttendance.filter((r) => r.held_classes > 0 && r.attendance_pct !== null)
-    const avgPct =
-      valid.length > 0
-        ? Math.round(valid.reduce((s, r) => s + Number(r.attendance_pct || 0), 0) / valid.length)
-        : null
-
-    const byCourse = new Map<string, { present: number; total: number }>()
-    for (const r of monthlyAttendance) {
-      if (r.held_classes <= 0) continue
-      const key = `${r.course_title} · ${r.batch_name}`
-      const cur = byCourse.get(key) ?? { present: 0, total: 0 }
-      cur.present += Number(r.present_count || 0) + Number(r.late_count || 0)
-      cur.total += Number(r.held_classes || 0)
-      byCourse.set(key, cur)
-    }
-    const courseRates = Array.from(byCourse.entries()).map(([label, v]) => ({
-      label,
-      pct: v.total > 0 ? Math.round((v.present / v.total) * 100) : 0,
-      held: v.total,
-    }))
-    return { avgPct, courseRates }
-  }, [monthlyAttendance])
 
   // Attention queue (matches SmartIdara's "Today — needs your attention")
   const attentionRows = [

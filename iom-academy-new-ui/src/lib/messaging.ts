@@ -1,4 +1,4 @@
-// Shared WhatsApp & Telegram formatting/share helpers for Online Academy
+// Shared SMS, WhatsApp & Telegram formatting/dispatch helpers for Online Academy
 
 export interface InvoiceMessageData {
   invoice_number: string
@@ -11,6 +11,65 @@ export interface InvoiceMessageData {
   due_date: string
   status: string
   payment_reference_code?: string | null
+}
+
+export interface AbsenteeNotificationData {
+  student_name: string
+  course_title: string
+  batch_name: string
+  absent_count: number
+  last_absent_date?: string
+  guardian_name?: string
+}
+
+export interface FeeReminderNotificationData {
+  student_name: string
+  billing_month: string
+  amount_due: number
+  due_date: string
+  bkash_number?: string
+  nagad_number?: string
+}
+
+/** Sanitize phone number for Bangladesh and international numbers */
+export function sanitizePhone(phone?: string): string {
+  if (!phone) return ''
+  return phone.replace(/[^\d+]/g, '').trim()
+}
+
+/** Standardize phone for WhatsApp wa.me (prepends 88 for BD 01... numbers) */
+export function formatPhoneForWhatsApp(phone?: string): string {
+  const clean = sanitizePhone(phone).replace(/^\+/, '')
+  if (!clean) return ''
+  if (clean.startsWith('01') && clean.length === 11) {
+    return `88${clean}`
+  }
+  return clean
+}
+
+/**
+ * Cross-platform 1-Click SMS link (RFC 5724 compliant)
+ * Works seamlessly on iOS (Mobile Safari / Messages) and Android
+ */
+export function buildSmsUrl(phone: string, text: string): string {
+  const cleanPhone = sanitizePhone(phone)
+  const encoded = encodeURIComponent(text)
+  // On iOS 'sms:phone&body=...' and Android 'sms:phone?body=...'
+  // 'sms:phone?body=...' is the RFC standard supported by both modern OS
+  return `sms:${cleanPhone}?body=${encoded}`
+}
+
+/** Build WhatsApp wa.me deep link */
+export function buildWhatsAppUrl(text: string, phone?: string): string {
+  const digits = formatPhoneForWhatsApp(phone)
+  const encoded = encodeURIComponent(text)
+  if (!digits) return `https://wa.me/?text=${encoded}`
+  return `https://wa.me/${digits}?text=${encoded}`
+}
+
+/** Build Telegram share link */
+export function buildTelegramShareUrl(text: string, url = window.location.origin): string {
+  return `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
 }
 
 /** Build formatted Bengali+English invoice or payment receipt message */
@@ -41,20 +100,16 @@ export function buildInvoiceText(inv: InvoiceMessageData): string {
   return lines.join('\n')
 }
 
-/** Build WhatsApp wa.me deep link (accepts BD local 01... or international digits) */
-export function buildWhatsAppUrl(text: string, phone?: string): string {
-  const encoded = encodeURIComponent(text)
-  const raw = (phone || '').replace(/[^\d+]/g, '')
-  if (!raw) return `https://wa.me/?text=${encoded}`
-  let digits = raw.replace(/^\+/, '')
-  if (digits.startsWith('01') && digits.length === 11) {
-    digits = `88${digits}`
-  }
-  return `https://wa.me/${digits}?text=${encoded}`
+/** Build concise absent follow-up message for 1-Click SMS */
+export function buildAbsenteeSmsMessage(data: AbsenteeNotificationData): string {
+  const prefix = data.guardian_name ? `সম্মানিত অভিভাবক (${data.guardian_name})` : `সম্মানিত অভিভাবক`
+  const dateStr = data.last_absent_date ? ` (${data.last_absent_date})` : ''
+  return `আসসালামু আলাইকুম। ${prefix}, আপনার সন্তান ${data.student_name} (${data.course_title} - ${data.batch_name}) একাডেমির ক্লাসে ${data.absent_count} দিন অনুপস্থিত ছিল${dateStr}। সন্তানের নিয়মিত উপস্থিতি ও কুরআন শিক্ষায় যত্ন নেওয়ার অনুরোধ করা হলো। - আইওএম ইতকান একাডেমি`
 }
 
-/** Build Telegram share link */
-export function buildTelegramShareUrl(text: string, url = window.location.origin): string {
-  return `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
+/** Build concise tuition fee reminder message for 1-Click SMS */
+export function buildFeeReminderSmsMessage(data: FeeReminderNotificationData): string {
+  const bkash = data.bkash_number ? ` বিকাশ: ${data.bkash_number}` : ''
+  const nagad = data.nagad_number ? ` নগদ: ${data.nagad_number}` : ''
+  return `আসসালামু আলাইকুম। আইওএম ইতকান একাডেমি: শিক্ষার্থী ${data.student_name}-এর ${data.billing_month} মাসের টিউশন ফি ৳${data.amount_due.toLocaleString()} বকেয়া রয়েছে (পরিশোধের শেষ তারিখ: ${data.due_date})।${bkash}${nagad}। পরিশোধ শেষে ট্রানজেকশন আইডি পোর্টালে সাবমিট করুন। জাযাকাল্লাহু খাইরান।`
 }
-
