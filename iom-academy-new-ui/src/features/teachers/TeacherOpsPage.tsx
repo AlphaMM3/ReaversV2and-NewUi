@@ -694,7 +694,7 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Briefcase className="w-3.5 h-3.5" /> শিক্ষক ও স্টাফ প্রোফাইল ({staffMembers.length})
+          <Briefcase className="w-3.5 h-3.5" /> 👨‍🏫 শিক্ষক ও স্টাফ প্রোফাইল ({staffMembers.length})
         </button>
 
         <button
@@ -706,7 +706,7 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Layers className="w-3.5 h-3.5" /> ক্লাস ও ব্যাচ দায়িত্ব বণ্টন ({batches.length})
+          <Layers className="w-3.5 h-3.5" /> 📋 ক্লাস ও ব্যাচ দায়িত্ব বণ্টন ({batches.length})
         </button>
 
         <button
@@ -718,7 +718,7 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
               : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
-          <Shield className="w-3.5 h-3.5" /> জিম্মাদার কর্মশালা ও দায়িত্ব
+          <Shield className="w-3.5 h-3.5" /> 🛡️ জিম্মাদার কর্মশালা ও দায়িত্ব
         </button>
 
         <button
@@ -903,7 +903,7 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
                       {/* Assigned Responsibilities */}
                       <div className="mb-3">
                         <span className="text-[11px] font-bold text-slate-500 block mb-1">
-                          দায়িত্ব ও করণীয়:
+                          📋 দায়িত্ব ও করণীয়:
                         </span>
                         <ul className="text-xs text-slate-700 space-y-1 list-none pl-0">
                           {staff.responsibilities.map((resp, i) => (
@@ -1016,10 +1016,10 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
                         onChange={(e) => setFormRole(e.target.value as any)}
                         className="w-full px-3 py-2 text-xs font-semibold rounded-xl border border-border bg-slate-50 cursor-pointer"
                       >
-                        <option value="zimmadar">কোর্স ও বিভাগীয় জিম্মাদার</option>
-                        <option value="teacher">সিনিয়র ক্লাস উস্তাদ</option>
-                        <option value="supervisor">প্রধান পরীক্ষক / মুসাহহিহ</option>
-                        <option value="examiner">সহকারী প্রশিক্ষক</option>
+                        <option value="zimmadar">🏛️ কোর্স ও বিভাগীয় জিম্মাদার</option>
+                        <option value="teacher">👳‍♂️ সিনিয়র ক্লাস উস্তাদ</option>
+                        <option value="supervisor">🔍 প্রধান পরীক্ষক / মুসাহহিহ</option>
+                        <option value="examiner">📋 সহকারী প্রশিক্ষক</option>
                       </select>
                     </div>
                   </div>

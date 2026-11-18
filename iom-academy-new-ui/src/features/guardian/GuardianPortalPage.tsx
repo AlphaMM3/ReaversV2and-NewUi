@@ -287,7 +287,7 @@ export default function GuardianPortalPage() {
             </div>
             <div className="min-w-0">
               <p className="text-xs sm:text-sm font-bold text-emerald-950 truncate">
-                উস্তাদ / জিম্মাদারের নতুন উত্তর এসেছে!
+                🔔 উস্তাদ / জিম্মাদারের নতুন উত্তর এসেছে!
               </p>
               <p className="text-[11px] text-emerald-800 truncate">
                 টিকেট #{unreadTeacherReplies[0].token} ({unreadTeacherReplies[0].subject}) · সর্বশেষ উত্তর দেখতে ক্লিক করুন
