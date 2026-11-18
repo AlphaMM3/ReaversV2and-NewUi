@@ -281,7 +281,7 @@ function SlidableMultiYearBar({
             {yearGroups.map((yg, idx) => (
               <div
                 key={yg.year}
-                style={{ flexGrow: yg.months.length, flexBasis: 0 }}
+                style={{ flexGrow: yg.months?.length ?? 1, flexBasis: 0 }}
                 className={`truncate px-1.5 py-0.5 rounded-sm bg-primary-50/80 ${
                   idx > 0 ? 'border-l border-primary-200 ml-0.5' : ''
                 }`}

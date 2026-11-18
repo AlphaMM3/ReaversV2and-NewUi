@@ -533,7 +533,7 @@ export default function TicketsPage({ user }: { user: CurrentUser }) {
                         <span className="truncate max-w-[200px]">
                           প্রাপক: <strong>{t.target_recipient || t.target_role}</strong>
                         </span>
-                        <span>{t.replies.length} বার্তা</span>
+                        <span>{Array.isArray(t.replies) ? t.replies.length : 0} বার্তা</span>
                       </div>
                     </button>
                   )
@@ -684,13 +684,13 @@ export default function TicketsPage({ user }: { user: CurrentUser }) {
                     </div>
 
                     {/* Chat Replies */}
-                    {selectedTicket.replies.length === 0 ? (
+                    {(selectedTicket.replies ?? []).length === 0 ? (
                       <div className="py-8 text-center text-xs text-muted">
                         <p>এখনো কোনো উত্তর দেওয়া হয়নি।</p>
                         <p className="text-[11px] mt-1">অভিভাবককে উত্তর বা পরামর্শ পাঠাতে নিচের বক্স ব্যবহার করুন।</p>
                       </div>
                     ) : (
-                      selectedTicket.replies.map((r) => {
+                      (selectedTicket.replies ?? []).map((r) => {
                         const isMe = r.author_name === user.name
                         const isGuardianMsg = r.author_role.startsWith('guardian')
                         const isTeacherMsg = r.author_role === 'teacher'
@@ -978,14 +978,17 @@ export default function TicketsPage({ user }: { user: CurrentUser }) {
 
                       <p className="text-xs text-body whitespace-pre-wrap">{n.message}</p>
 
-                      {isSuperAdmin && (
-                        <div className="pt-2 border-t border-border/70 text-[11px] text-muted">
-                          <strong>Acknowledged ({n.acknowledged_by.length}):</strong>{' '}
-                          {n.acknowledged_by.length === 0
-                            ? 'Waiting for staff acknowledgment'
-                            : n.acknowledged_by.map((a) => `${a.name} (${a.role})`).join(', ')}
-                        </div>
-                      )}
+                      {isSuperAdmin && (() => {
+                        const ackList = Array.isArray(n.acknowledged_by) ? n.acknowledged_by : []
+                        return (
+                          <div className="pt-2 border-t border-border/70 text-[11px] text-muted">
+                            <strong>Acknowledged ({ackList.length}):</strong>{' '}
+                            {ackList.length === 0
+                              ? 'Waiting for staff acknowledgment'
+                              : ackList.map((a) => `${a.name} (${a.role})`).join(', ')}
+                          </div>
+                        )
+                      })()}
                     </CardContent>
                   </Card>
                 )

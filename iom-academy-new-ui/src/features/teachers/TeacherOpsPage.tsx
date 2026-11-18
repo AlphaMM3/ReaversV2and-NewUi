@@ -1487,7 +1487,8 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
           {/* Zimmadar Roster & Assigned Batches */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {staffMembers.filter((s) => s.role === 'zimmadar').map((zim) => {
-              const myBatches = batches.filter((b) => b.zimmadar_id === zim.id || zim.assignedBatches.includes(b.label))
+              const assigned = Array.isArray(zim.assignedBatches) ? zim.assignedBatches : []
+              const myBatches = batches.filter((b) => b.zimmadar_id === zim.id || assigned.includes(b.label))
               return (
                 <div key={zim.id} className="bg-surface rounded-2xl border border-emerald-200/90 p-4 shadow-3xs flex flex-col justify-between">
                   <div>
@@ -1522,10 +1523,10 @@ export default function TeacherOpsPage({ user }: { user: CurrentUser }) {
 
                     <div className="mb-3">
                       <span className="text-[11px] font-bold text-slate-600 block mb-1">
-                        📚 তত্ত্বাবধানকৃত ব্যাচসমূহ ({myBatches.length || zim.assignedBatches.length}):
+                        📚 তত্ত্বাবধানকৃত ব্যাচসমূহ ({myBatches.length || assigned.length}):
                       </span>
                       <div className="flex flex-wrap gap-1">
-                        {zim.assignedBatches.map((b) => (
+                        {assigned.map((b) => (
                           <span key={b} className="text-[11px] font-semibold bg-emerald-50 text-emerald-900 border border-emerald-200 rounded px-2 py-0.5">
                             {b}
                           </span>

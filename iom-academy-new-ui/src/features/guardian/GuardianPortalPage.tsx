@@ -254,6 +254,7 @@ export default function GuardianPortalPage() {
     return supportTickets.filter(
       (t) =>
         t.status !== 'resolved' &&
+        Array.isArray(t.replies) &&
         t.replies.some((r) => !r.author_role.startsWith('guardian')),
     )
   }, [supportTickets])
@@ -781,7 +782,7 @@ export default function GuardianPortalPage() {
                       <span>শিক্ষার্থী: {tkt.student_name || 'আব্দুল্লাহ'}</span>
                       <span className="flex items-center gap-1 font-bold text-primary-700">
                         <MessageSquare className="w-3 h-3 text-primary-600" />
-                        {tkt.replies.length} টি উত্তর · সরাসরি চ্যাট করুন 💬
+                        {Array.isArray(tkt.replies) ? tkt.replies.length : 0} টি উত্তর · সরাসরি চ্যাট করুন 💬
                       </span>
                     </div>
                   </div>
@@ -1053,13 +1054,13 @@ export default function GuardianPortalPage() {
               </div>
 
               {/* Thread Replies */}
-              {activeChatTicket.replies.length === 0 ? (
+              {(activeChatTicket.replies ?? []).length === 0 ? (
                 <div className="py-6 text-center text-xs text-muted">
                   <p>উস্তাদ বা জিম্মাদার এখনো উত্তর দেননি। উত্তর আসলেই এখানে ভেসে উঠবে।</p>
                   <p className="text-[11px] mt-1">প্রয়োজনে নিচে আরও বার্তা বা স্ক্রিনশট লিখে পাঠাতে পারেন।</p>
                 </div>
               ) : (
-                activeChatTicket.replies.map((rep) => {
+                (activeChatTicket.replies ?? []).map((rep) => {
                   const isMe = rep.author_role.startsWith('guardian')
                   const isTeacherRep = rep.author_role === 'teacher'
                   const isZimmadarRep = rep.author_role === 'zimmadar' || rep.author_role === 'department_supervisor'
