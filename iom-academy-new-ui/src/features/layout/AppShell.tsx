@@ -1,5 +1,5 @@
 import { useSupportTickets } from '@/lib/supportApi'
-import { Bell, Search, LogOut, BookOpen, Menu, X, ChevronRight, MessageSquarePlus, PanelLeftClose, PanelLeftOpen, Megaphone, MessageSquare } from 'lucide-react'
+import { Bell, Search, LogOut, BookOpen, Menu, X, ChevronRight, MessageSquarePlus, PanelLeftClose, PanelLeftOpen, Megaphone, MessageSquare, Sparkles } from 'lucide-react'
 import { getDhakaToday, roleLabel, initials, avatarColor, cn } from '@/lib/utils'
 import type { CurrentUser, AccountRolesResponse } from '@/lib/api'
 import { api, authApi, toArray } from '@/lib/api'
@@ -25,6 +25,8 @@ import {
   hydrateSuperAdminStoresFromServer,
 } from '@/lib/superAdminStore'
 import ThemeSwitcher from '@/components/ThemeSwitcher'
+import CloudSyncBadge from '@/components/CloudSyncBadge'
+import AcademyAssistantDrawer from '@/features/ai/AcademyAssistantDrawer'
 import { SidebarNavItem, SidebarGroup, getNavIcon } from './Sidebar'
 import AnnotatorOverlay, { loadAnnotations } from '@/components/AnnotatorOverlay'
 import { useAttentionQueue, setAttentionDocked } from '@/lib/attentionNotifications'
@@ -73,6 +75,7 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
   const [notifOpen, setNotifOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false)
   const [annotating, setAnnotating] = useState(false)
   const [annotationCount, setAnnotationCount] = useState(() => loadAnnotations().length)
   const [openGroups, setOpenGroups] = useState<Record<NavGroupKey, boolean>>(() => loadInitialGroupState(user.role))
@@ -723,6 +726,20 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
             {getDhakaToday()}
           </span>
 
+          {/* Cloud Database Sync Status */}
+          <CloudSyncBadge />
+
+          {/* Academy AI Assistant Trigger */}
+          <button
+            type="button"
+            onClick={() => setAiDrawerOpen(true)}
+            title="ইতকান অ্যাকাডেমি এআই সহকারী"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 min-h-[38px] rounded-xl bg-gradient-to-r from-teal-800 to-emerald-800 hover:from-teal-700 hover:to-emerald-700 text-white text-xs font-bold transition-all shadow-3xs cursor-pointer flex-shrink-0"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-teal-300" />
+            <span className="hidden sm:inline">এআই সহকারী</span>
+          </button>
+
           {/* Theme Customizer Switcher */}
           <ThemeSwitcher />
 
@@ -1000,6 +1017,12 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
         annotating={annotating}
         onToggleAnnotating={setAnnotating}
         onCountChange={setAnnotationCount}
+      />
+
+      <AcademyAssistantDrawer
+        user={user}
+        isOpen={aiDrawerOpen}
+        onClose={() => setAiDrawerOpen(false)}
       />
     </div>
   )

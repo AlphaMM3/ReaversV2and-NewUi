@@ -180,6 +180,10 @@ export interface ClassSession {
   status: 'scheduled' | 'in_progress' | 'ended' | 'cancelled'
   held_verified: number | boolean
   meeting_url?: string | null
+  teacher_name?: string | null
+  total_present?: number
+  total_absent?: number
+  total_late?: number
 }
 
 export interface AttendanceRow {
