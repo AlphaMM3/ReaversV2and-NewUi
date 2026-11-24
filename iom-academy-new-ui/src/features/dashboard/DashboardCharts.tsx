@@ -27,7 +27,7 @@ export function ChartTableCard({
   const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart')
 
   return (
-    <Card className={cn('rounded-2xl h-full flex flex-col', className)} data-view-mode={viewMode}>
+    <Card className={cn('rounded-xl h-full flex flex-col', className)} data-view-mode={viewMode}>
       <CardHeader className="pb-3 flex-nowrap items-start gap-2">
         <div className="min-w-0">
           <CardTitle className="text-base">{title}</CardTitle>

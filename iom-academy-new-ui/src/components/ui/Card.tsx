@@ -11,7 +11,7 @@ export function Card({ id, className, children }: CardProps) {
     <div
       id={id}
       className={cn(
-        'bg-surface rounded-2xl border border-slate-200/90 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_1px_2px_rgba(15,23,42,0.02)] flex flex-col',
+        'bg-surface rounded-xl border border-slate-200/90 shadow-[0_1px_3px_rgba(15,23,42,0.04),0_1px_2px_rgba(15,23,42,0.02)] flex flex-col',
         className,
       )}
     >

@@ -52,11 +52,11 @@
   --color-danger:   #dc2626;
   --color-info:     #0369a1;
 
-  /* Neutral surface */
+  /* Neutral surface — Ultra-bright crisp white background & pure surface */
   --color-surface:  #ffffff;
-  --color-bg:       #f8fafc;
+  --color-bg:       #fafcff;
   --color-border:   #e2e8f0;
-  --color-muted:    #6b7280;
+  --color-muted:    #64748b;
   --color-heading:  #0f172a;
   --color-body:     #334155;
 
@@ -74,12 +74,12 @@
   --text-xl:   1.375rem;    /* 22px (up from 20px) */
   --text-2xl:  1.625rem;    /* 26px (up from 24px) */
 
-  /* Radius */
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  14px;
-  --radius-xl:  18px;
-  --radius-2xl: 22px;
+  /* Radius — Crisp, architectural modern squared feel */
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  8px;
+  --radius-xl:  10px;
+  --radius-2xl: 12px;
   --radius-full: 9999px;
 
   /* Sidebar */

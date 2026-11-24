@@ -26,35 +26,30 @@ export default function DashboardGlobalFilterBar({
   const [showCustomModal, setShowCustomModal] = useState(false)
   const today = getDhakaToday()
 
-  const ranges: Array<{ id: DashboardDateRange; label: string; sub?: string }> = [
-    { id: 'today', label: 'আজ', sub: 'Today' },
-    { id: 'week', label: 'এই সপ্তাহ', sub: 'This Week' },
-    { id: 'month', label: 'চলতি মাস', sub: 'This Month' },
-    { id: 'last_month', label: 'বিগত মাস', sub: 'Last Month' },
-    { id: 'custom', label: 'কাস্টম তারিখ', sub: 'Custom' },
+  const ranges: Array<{ id: DashboardDateRange; label: string }> = [
+    { id: 'today', label: 'আজ' },
+    { id: 'week', label: 'এই সপ্তাহ' },
+    { id: 'month', label: 'চলতি মাস' },
+    { id: 'last_month', label: 'বিগত মাস' },
+    { id: 'custom', label: 'কাস্টম তারিখ' },
   ]
 
   return (
-    <div className="bg-surface rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-3xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+    <div className="bg-surface rounded-xl border border-slate-200/90 p-3 sm:p-3.5 shadow-3xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
       <div className="flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center text-primary-700 shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-primary-50 border border-primary-200 flex items-center justify-center text-primary-700 shrink-0">
           <Calendar className="w-4 h-4" />
         </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-800">অ্যাকাডেমিক পিরিয়ড ফিল্টার</span>
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">
-              <CheckCircle2 className="w-2.5 h-2.5" /> ঢাকা সময়: {formatDhakaDate(today)}
-            </span>
-          </div>
-          <p className="text-[11px] text-muted hidden sm:block">
-            তারিখ পরিবর্তন করলে উপস্থিতি, লাইভ ক্লাস ও আর্থিক মেট্রিক্স স্বয়ংক্রিয়ভাবে ফিল্টার হবে
-          </p>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-slate-800">অ্যাকাডেমিক পিরিয়ড</span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md">
+            <CheckCircle2 className="w-2.5 h-2.5" /> ঢাকা সময়: {formatDhakaDate(today)}
+          </span>
         </div>
       </div>
 
       <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap max-w-full">
-        <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700 overflow-x-auto max-w-full no-scrollbar flex-shrink-0">
+        <div className="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/80 dark:border-slate-700 overflow-x-auto max-w-full no-scrollbar flex-shrink-0">
           {ranges.map((r) => {
             const active = selectedRange === r.id
             return (
@@ -65,7 +60,7 @@ export default function DashboardGlobalFilterBar({
                   onRangeChange(r.id)
                   if (r.id === 'custom') setShowCustomModal(true)
                 }}
-                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap min-h-[38px] flex items-center ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer whitespace-nowrap min-h-[34px] flex items-center ${
                   active
                     ? 'bg-white dark:bg-slate-900 text-primary-700 dark:text-primary-300 shadow-3xs border border-slate-200/60 dark:border-slate-700 font-bold'
                     : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
@@ -82,7 +77,7 @@ export default function DashboardGlobalFilterBar({
             type="button"
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors cursor-pointer shrink-0"
+            className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors cursor-pointer shrink-0"
             title="রিফ্রেশ করুন"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-primary-700' : ''}`} />
@@ -92,7 +87,7 @@ export default function DashboardGlobalFilterBar({
 
       {showCustomModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in">
-          <div className="bg-surface rounded-2xl border border-border p-5 max-w-sm w-full shadow-lg space-y-4">
+          <div className="bg-surface rounded-xl border border-border p-5 max-w-sm w-full shadow-lg space-y-4">
             <h3 className="text-sm font-bold text-heading flex items-center gap-2">
               <Filter className="w-4 h-4 text-primary-700" /> কাস্টম তারিখ নির্বাচন করুন
             </h3>

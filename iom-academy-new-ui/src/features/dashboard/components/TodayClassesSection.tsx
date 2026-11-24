@@ -24,20 +24,17 @@ export default function TodayClassesSection({
   }, [safeClasses, statusFilter])
 
   return (
-    <Card className="rounded-2xl border-slate-200/90 shadow-3xs">
+    <Card className="rounded-xl border-slate-200/90 shadow-3xs">
       <CardHeader className="pb-3 border-b border-border/70 flex flex-row items-center justify-between flex-wrap gap-3">
         <div>
           <CardTitle className="text-base font-bold flex items-center gap-2">
             <Video className="w-4 h-4 text-primary-700" />
             আজকের লাইভ অনলাইন ক্লাস ({safeClasses.length})
           </CardTitle>
-          <p className="text-xs text-muted mt-0.5">
-            উস্তাদ ও যিম্মাদারদের অনলাইন ক্লাসরুম নিয়ন্ত্রণ এবং সরাসরি মনিটরিং
-          </p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200/70 text-xs">
+          <div className="inline-flex p-1 bg-slate-100 rounded-lg border border-slate-200/70 text-xs">
             {(['all', 'in_progress', 'scheduled', 'ended'] as const).map((st) => {
               const count = st === 'all' ? safeClasses.length : safeClasses.filter((c) => c.status === st).length
               const labels = {
@@ -52,7 +49,7 @@ export default function TodayClassesSection({
                   key={st}
                   type="button"
                   onClick={() => setStatusFilter(st)}
-                  className={`px-2.5 py-1 rounded-lg font-semibold transition-all cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md font-semibold transition-all cursor-pointer ${
                     active ? 'bg-white text-primary-700 shadow-3xs font-bold' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >

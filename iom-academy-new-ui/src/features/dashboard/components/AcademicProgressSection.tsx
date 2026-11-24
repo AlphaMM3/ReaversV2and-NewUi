@@ -92,14 +92,13 @@ export default function AcademicProgressSection({
 
       {/* Curriculum, Assessments and Vault Strip */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">অনলাইন মূল্যায়ন ও পরীক্ষা</span>
             <Badge variant="approved">{publishedAssessments} প্রকাশিত</Badge>
           </div>
           <div className="mt-2">
             <p className="text-2xl font-black text-heading">{safeAssessments.length} টি পরীক্ষা</p>
-            <p className="text-xs text-muted mt-0.5">মাসিক ও সাপ্তাহিক মূল্যায়ন ট্র্যাকড</p>
           </div>
           <button
             type="button"
@@ -111,14 +110,13 @@ export default function AcademicProgressSection({
           </button>
         </div>
 
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">ডিজিটাল কুতুবখানা ও রিসোর্স</span>
             <BookOpen className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="mt-2">
             <p className="text-2xl font-black text-heading">{safeResources.length} টি ফাইল</p>
-            <p className="text-xs text-muted mt-0.5">পিডিএফ কিতাব, কায়েদা ও শিট</p>
           </div>
           <button
             type="button"
@@ -130,14 +128,13 @@ export default function AcademicProgressSection({
           </button>
         </div>
 
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">অ্যাকাডেমিক নোটিশ ও ঘোষণা</span>
             <Badge variant="neutral">{safeAnnouncements.length} নোটিশ</Badge>
           </div>
           <div className="mt-2">
-            <p className="text-2xl font-black text-heading">{safeAnnouncements.length > 0 ? safeAnnouncements[0].title.slice(0, 20) + '...' : 'সকল নোটিশ আপডেট'}</p>
-            <p className="text-xs text-muted mt-0.5">শিক্ষক ও অভিভাবক টেলিগ্রাম চ্যানেলে যুক্ত</p>
+            <p className="text-2xl font-black text-heading">{safeAnnouncements.length > 0 ? safeAnnouncements[0].title.slice(0, 24) + '...' : 'সকল নোটিশ আপডেট'}</p>
           </div>
           <button
             type="button"

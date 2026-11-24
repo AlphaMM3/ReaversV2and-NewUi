@@ -37,7 +37,7 @@ export default function FinanceOverviewSection({
     <div className="space-y-5">
       {/* Financial Health Summary Strip */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">মাসিক আদায় ও লক্ষ্যমাত্রা</span>
             <Badge variant={monthCollectionPct >= 80 ? 'approved' : 'pending'}>{monthCollectionPct}%</Badge>
@@ -56,7 +56,7 @@ export default function FinanceOverviewSection({
           </button>
         </div>
 
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">শিক্ষক বেতন ও অনারিয়াম</span>
             <Badge variant={pendingPayablesCount > 0 ? 'pending' : 'approved'}>
@@ -77,7 +77,7 @@ export default function FinanceOverviewSection({
           </button>
         </div>
 
-        <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
+        <div className="bg-surface rounded-xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">নিট উদ্বৃত্ত ও তহবিল (P&amp;L)</span>
             <Wallet className="w-4 h-4 text-emerald-600" />

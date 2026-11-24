@@ -39,8 +39,8 @@ export function SmartKpiCard({
         }
       }}
       className={cn(
-        'h-full bg-surface rounded-2xl border border-slate-200/90 p-3 sm:p-4.5 lg:p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]',
-        'hover:shadow-md hover:border-primary-300 transition-all flex flex-col justify-between gap-2 sm:gap-3',
+        'h-full bg-surface rounded-xl border border-slate-200/90 p-3 sm:p-4 lg:p-4.5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]',
+        'hover:shadow-md hover:border-primary-300 transition-all flex flex-col justify-between gap-2 sm:gap-2.5',
         footerLink && 'cursor-pointer group active:scale-[0.98]',
       )}
     >
@@ -48,7 +48,7 @@ export function SmartKpiCard({
         <div className="flex items-center justify-between gap-1.5 sm:gap-2">
           <div
             className={cn(
-              'w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-5 sm:[&>svg]:h-5',
+              'w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 [&>svg]:w-4 [&>svg]:h-4 sm:[&>svg]:w-4.5 sm:[&>svg]:h-4.5',
               iconBg,
             )}
           >
@@ -61,7 +61,7 @@ export function SmartKpiCard({
               </span>
             )}
             {footerLink && (
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-50 group-hover:bg-primary-50 flex items-center justify-center transition-colors">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-slate-50 group-hover:bg-primary-50 flex items-center justify-center transition-colors">
                 <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-primary-700 transition-colors" />
               </div>
             )}
@@ -127,7 +127,7 @@ export default function DashboardKpiStrip({
   inProgressClassesCount,
   loadingClasses,
   attendanceAvgPct,
-  monthKey,
+  monthKey: _monthKey,
   monthCollected,
   monthBilled,
   monthCollectionPct,
@@ -135,7 +135,7 @@ export default function DashboardKpiStrip({
   unpaidInvoicesCount,
   netBalanceMonth,
   monthPayablesTotal,
-  monthOperatingExpenses,
+  monthOperatingExpenses: _monthOperatingExpenses,
   usersCount,
   teacherCount,
   zimmadarCount,
@@ -146,14 +146,14 @@ export default function DashboardKpiStrip({
   return (
     <div className="space-y-2.5">
       {/* 4 Primary KPI cards in 2x2 grid on mobile, desktop 2x3 grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4 lg:gap-5 items-stretch">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3.5 lg:gap-4 items-stretch">
         {/* Card 1: Active Students */}
         <SmartKpiCard
-          label="ACTIVE STUDENTS"
+          label="সক্রিয় শিক্ষার্থী"
           value={summary?.students ?? '—'}
-          sub={`${summary?.group_enrollments ?? 0} Group · ${summary?.one_to_one_enrollments ?? 0} 1:1`}
-          footerLink={{ label: 'Students & enrollments →', route: '#/students' }}
-          icon={<Users className="w-5 h-5 text-primary-700" />}
+          sub={`${summary?.group_enrollments ?? 0} গ্রুপ · ${summary?.one_to_one_enrollments ?? 0} ১:১`}
+          footerLink={{ label: 'শিক্ষার্থী তালিকা →', route: '#/students' }}
+          icon={<Users className="w-4.5 h-4.5 text-primary-700" />}
           iconBg="bg-primary-50"
           loading={loadingSummary}
           onNavigate={onNavigate}
@@ -161,17 +161,17 @@ export default function DashboardKpiStrip({
 
         {/* Card 2: Attendance & Classes Today */}
         <SmartKpiCard
-          label="ATTENDANCE & CLASSES TODAY"
+          label="আজকের ক্লাস ও উপস্থিতি"
           value={
             todayClassesCount > 0
-              ? `${todayClassesCount} live`
+              ? `${todayClassesCount}টি ক্লাস`
               : attendanceAvgPct !== null
                 ? `${attendanceAvgPct}%`
                 : '—'
           }
-          sub={`${endedClassesCount} ended · ${inProgressClassesCount} live now · Avg ${attendanceAvgPct ?? '—'}%`}
-          footerLink={{ label: 'Mark attendance →', route: '#/attendance' }}
-          icon={<Video className="w-5 h-5 text-teal-700" />}
+          sub={`${endedClassesCount} সম্পন্ন · ${inProgressClassesCount} চলমান · গড় ${attendanceAvgPct ?? '—'}%`}
+          footerLink={{ label: 'হাজিরা গ্রহণ →', route: '#/attendance' }}
+          icon={<Video className="w-4.5 h-4.5 text-teal-700" />}
           iconBg="bg-teal-50"
           loading={loadingClasses}
           onNavigate={onNavigate}
@@ -179,12 +179,12 @@ export default function DashboardKpiStrip({
 
         {/* Card 3: Fee Collected */}
         <SmartKpiCard
-          label={`FEE COLLECTED · ${monthKey}`}
+          label="আদায়কৃত টিউশন ফি"
           value={`৳ ${monthCollected.toLocaleString()}`}
           badge={monthBilled > 0 ? `${monthCollectionPct}%` : undefined}
-          sub={`${monthCollectionPct}% of ৳ ${monthBilled.toLocaleString()} billed this month`}
-          footerLink={{ label: 'Open billing →', route: '#/invoices' }}
-          icon={<Receipt className="w-5 h-5 text-emerald-700" />}
+          sub={`বিল: ৳ ${monthBilled.toLocaleString()}`}
+          footerLink={{ label: 'বিলিং খাতা →', route: '#/invoices' }}
+          icon={<Receipt className="w-4.5 h-4.5 text-emerald-700" />}
           iconBg="bg-emerald-50"
           loading={false}
           onNavigate={onNavigate}
@@ -192,11 +192,11 @@ export default function DashboardKpiStrip({
 
         {/* Card 4: Fee Pending (Due) */}
         <SmartKpiCard
-          label="FEE PENDING (ALL MONTHS)"
+          label="বকেয়া টিউশন ফি"
           value={`৳ ${totalOutstanding.toLocaleString()}`}
-          sub={`${unpaidInvoicesCount} unpaid / partial invoice${unpaidInvoicesCount === 1 ? '' : 's'}`}
-          footerLink={{ label: 'See pending invoices →', route: '#/invoices' }}
-          icon={<AlertTriangle className="w-5 h-5 text-rose-600" />}
+          sub={`${unpaidInvoicesCount}টি বকেয়া ইনভয়েস`}
+          footerLink={{ label: 'বকেয়া তালিকা →', route: '#/invoices' }}
+          icon={<AlertTriangle className="w-4.5 h-4.5 text-rose-600" />}
           iconBg="bg-rose-50"
           loading={false}
           onNavigate={onNavigate}
@@ -205,13 +205,11 @@ export default function DashboardKpiStrip({
         {/* Extra Cards (Cards 5 & 6) — visible on desktop, or toggled on mobile */}
         <div className={cn('col-span-2 sm:col-span-1', !showExtraKpisMobile && 'hidden sm:block')}>
           <SmartKpiCard
-            label={`NET BALANCE · ${monthKey}`}
+            label="নেট ব্যালেন্স"
             value={`৳ ${netBalanceMonth.toLocaleString()}`}
-            sub={`Collected ৳ ${monthCollected.toLocaleString()} · Payables ৳ ${monthPayablesTotal.toLocaleString()}${
-              monthOperatingExpenses > 0 ? ` · Exp ৳ ${monthOperatingExpenses.toLocaleString()}` : ''
-            }`}
-            footerLink={{ label: 'Expenses & P&L →', route: '#/expenses' }}
-            icon={<Wallet className="w-5 h-5 text-primary-700" />}
+            sub={`আদায় ৳ ${monthCollected.toLocaleString()} · প্রদেয় ৳ ${monthPayablesTotal.toLocaleString()}`}
+            footerLink={{ label: 'ব্যয় ও হিসাব →', route: '#/expenses' }}
+            icon={<Wallet className="w-4.5 h-4.5 text-primary-700" />}
             iconBg="bg-primary-50"
             loading={false}
             onNavigate={onNavigate}
@@ -220,15 +218,15 @@ export default function DashboardKpiStrip({
 
         <div className={cn('col-span-2 sm:col-span-1', !showExtraKpisMobile && 'hidden sm:block')}>
           <SmartKpiCard
-            label="TEACHERS & STAFF"
+            label="মুয়াল্লিম ও স্টাফ"
             value={usersCount > 0 ? usersCount : summary?.active_enrollments ?? '—'}
             sub={
               usersCount > 0
-                ? `${teacherCount} Teachers · ${zimmadarCount} Zimmadars`
-                : `${summary?.active_enrollments ?? 0} active enrollments`
+                ? `${teacherCount} উস্তাদ · ${zimmadarCount} যিম্মাদার`
+                : `${summary?.active_enrollments ?? 0} জন সক্রিয়`
             }
-            footerLink={{ label: 'Academy directory →', route: '#/settings' }}
-            icon={<UserCheck className="w-5 h-5 text-amber-700" />}
+            footerLink={{ label: 'ডিরেক্টরি →', route: '#/settings' }}
+            icon={<UserCheck className="w-4.5 h-4.5 text-amber-700" />}
             iconBg="bg-amber-50"
             loading={false}
             onNavigate={onNavigate}
