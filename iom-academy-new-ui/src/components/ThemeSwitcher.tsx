@@ -35,8 +35,8 @@ export default function ThemeSwitcher({ compact = false, className }: ThemeSwitc
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          'inline-flex items-center gap-1.5 rounded-xl border border-border bg-surface px-2.5 py-1.5 text-xs font-semibold text-heading shadow-2xs hover:bg-bg transition-colors cursor-pointer',
-          compact ? 'px-2 py-1' : '',
+          'inline-flex items-center gap-1.5 rounded-md border border-slate-200/90 bg-surface px-2.5 h-9 text-xs font-semibold text-heading hover:bg-slate-50 transition-colors cursor-pointer',
+          compact ? 'px-2' : '',
         )}
         title="Change Workspace Theme"
         aria-label="Select theme"

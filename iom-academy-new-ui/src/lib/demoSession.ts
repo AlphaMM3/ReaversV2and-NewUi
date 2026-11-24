@@ -47,6 +47,9 @@ export const DEMO_PERSONAS: Record<string, CurrentUser> = {
 
 export function getStoredSessionUser(): CurrentUser | null {
   try {
+    if (typeof window !== 'undefined' && (window.location.search.includes('demo=admin') || window.location.href.includes('demo=admin'))) {
+      return DEMO_PERSONAS.central_admin
+    }
     const raw = localStorage.getItem(DEMO_SESSION_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw)

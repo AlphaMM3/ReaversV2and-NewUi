@@ -410,43 +410,40 @@ export default function AcademicLearningPage({
     <div className="w-full max-w-[1680px] mx-auto space-y-5">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-lg font-bold text-heading">
-            {mode === 'exams' ? 'Exams & Results' : 'Attendance & Homework'}
+          <h2 className="text-xl font-black text-heading tracking-tight">
+            {mode === 'exams' ? 'পরীক্ষা ও ফলাফল (Exams & Results)' : 'সবক হাজিরা ও বাড়ির কাজ'}
           </h2>
-          <p className="text-xs text-muted mt-0.5">
+          <p className="text-xs sm:text-sm text-muted mt-0.5">
             {mode === 'exams'
-              ? isSuperAdmin
-                ? 'Schedule assessments, review teacher-entered marks, and publish audited exam results'
-                : 'View exam schedules, record student assessment marks, and track published results'
-              : isSuperAdmin
-                ? 'Unified daily academic workspace — review Attendance & Roll Call and Teacher Homework updates by batch'
-                : 'Record daily class attendance and assign/review online homework per batch'}
+              ? 'শিক্ষার্থী মূল্যায়ন ও পরীক্ষার ফলাফল প্রকাশনা খাতা'
+              : 'হিফজ ও ইসলামিক স্টাডিজের দৈনিক সবক, উপস্থিতি এবং হোমওয়ার্ক ব্যবস্থাপনা'}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {mode !== 'exams' && (
-            <Button size="sm" variant="outline" onClick={() => navigateTo('#/attendance')}>
-              <ClipboardCheck className="w-4 h-4" /> Take Roll Call
+            <Button size="sm" variant="outline" className="rounded-md text-xs font-semibold" onClick={() => navigateTo('#/attendance')}>
+              <ClipboardCheck className="w-4 h-4" /> হাজিরা গ্রহণ
             </Button>
           )}
           <Button
             size="sm"
             variant="outline"
+            className="rounded-md text-xs font-semibold"
             onClick={() => navigateTo(mode === 'exams' ? '#/homework' : '#/exams')}
           >
             {mode === 'exams' ? (
               <>
-                <BookOpen className="w-4 h-4" /> Attendance &amp; Homework
+                <BookOpen className="w-4 h-4" /> সবক ও হোমওয়ার্ক
               </>
             ) : (
               <>
-                <GraduationCap className="w-4 h-4" /> Exams &amp; Results
+                <GraduationCap className="w-4 h-4" /> পরীক্ষা ও ফলাফল
               </>
             )}
           </Button>
           {canCreate && tab !== 'attendance' && (
-            <Button size="sm" variant={isSuperAdmin ? 'outline' : 'primary'} onClick={() => setShowCreate(!showCreate)}>
-              <Plus className="w-4 h-4" /> {isSuperAdmin ? `Manual ${tab === 'homework' ? 'Homework' : 'Exam'}` : `New ${tab === 'homework' ? 'Homework' : 'Assessment'}`}
+            <Button size="sm" variant={isSuperAdmin ? 'outline' : 'primary'} className="rounded-md text-xs font-bold" onClick={() => setShowCreate(!showCreate)}>
+              <Plus className="w-4 h-4" /> {isSuperAdmin ? `ম্যানুয়াল ${tab === 'homework' ? 'হোমওয়ার্ক' : 'পরীক্ষা'}` : `নতুন ${tab === 'homework' ? 'হোমওয়ার্ক' : 'মূল্যায়ন'}`}
             </Button>
           )}
         </div>
@@ -458,7 +455,7 @@ export default function AcademicLearningPage({
           <div className={`grid grid-cols-1 ${mode === 'exams' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-3`}>
             {mode !== 'exams' && (
               <div>
-                <label className="text-xs font-semibold text-heading block mb-1">Section View</label>
+                <label className="text-xs font-semibold text-heading block mb-1">ভিউ মোড (Section View)</label>
                 <select
                   value={tab}
                   onChange={(e) => {
@@ -470,19 +467,19 @@ export default function AcademicLearningPage({
                   className="w-full"
                 >
                   <option value="hifz_pora">📖 দৈনিক সবক ও হিফজ ডায়েরি (PDF Format)</option>
-                  <option value="homework">Homework Updates ({homework.length})</option>
-                  <option value="attendance">Attendance &amp; Roll Call ({filteredAttClasses.length})</option>
+                  <option value="homework">হোমওয়ার্ক খাতা ({homework.length})</option>
+                  <option value="attendance">উপস্থিতি ও হাজিরা ({filteredAttClasses.length})</option>
                 </select>
               </div>
             )}
 {tab !== 'hifz_pora' && <><div>
-              <label className="text-xs font-semibold text-heading block mb-1">Batch Filter</label>
+              <label className="text-xs font-semibold text-heading block mb-1">ব্যাচ নির্বাচন (Batch)</label>
               <select
                 value={batchFilter}
                 onChange={(e) => setBatchFilter(e.target.value)}
                 className="w-full"
               >
-                <option value="all">All Batches</option>
+                <option value="all">সবগুলো ব্যাচ (All Batches)</option>
                 {batchSelectList.map((b) => (
                   <option key={b.id} value={String(b.id)}>
                     {b.label} {b.course_title ? `— ${b.course_title}` : ''}
@@ -491,23 +488,23 @@ export default function AcademicLearningPage({
               </select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-heading block mb-1">Search Teacher / Title</label>
+              <label className="text-xs font-semibold text-heading block mb-1">অনুসন্ধান (Search)</label>
               <div className="relative">
                 <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="search"
-                  placeholder="Title, batch or teacher…"
+                  placeholder="শিরোনাম, ব্যাচ বা উস্তাদের নাম…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="iom-input pl-10 w-full"
+                  className="iom-input pl-10 w-full text-xs rounded-md"
                 />
               </div>
             </div>
             </>}
             {tab === 'homework' && <label className="text-xs font-semibold text-heading">
-              Single course
-              <select className="mt-1 block w-full" value={singleCourse} onChange={(e) => { setSingleCourse(e.target.value); setBatchFilter('all') }}>
-                <option value="">All courses</option>
+              কোর্স ফিল্টার
+              <select className="mt-1 block w-full text-xs rounded-md" value={singleCourse} onChange={(e) => { setSingleCourse(e.target.value); setBatchFilter('all') }}>
+                <option value="">সবগুলো কোর্স (All Courses)</option>
                 {singleCourses.map((course) => <option key={course.id} value={course.id}>{course.title}</option>)}
               </select>
             </label>}

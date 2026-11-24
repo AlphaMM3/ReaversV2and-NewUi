@@ -1,6 +1,6 @@
 import { useSupportTickets } from '@/lib/supportApi'
 import { Bell, Search, LogOut, BookOpen, Menu, X, ChevronRight, MessageSquarePlus, PanelLeftClose, PanelLeftOpen, Megaphone, MessageSquare, Sparkles } from 'lucide-react'
-import { getDhakaToday, roleLabel, initials, avatarColor, cn } from '@/lib/utils'
+import { roleLabel, initials, avatarColor, cn } from '@/lib/utils'
 import type { CurrentUser, AccountRolesResponse } from '@/lib/api'
 import { api, authApi, toArray } from '@/lib/api'
 import {
@@ -619,159 +619,133 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
       {/* ── MAIN AREA ──────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header
-          className="flex items-center gap-3 px-3 sm:px-6 bg-surface border-b border-border flex-shrink-0"
+          className="flex items-center justify-between gap-3 px-3 sm:px-6 bg-surface border-b border-border flex-shrink-0"
           style={{ height: 'var(--topbar-height)' }}
         >
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open navigation menu"
-            className="lg:hidden p-2 -ml-1 rounded-lg border border-border bg-bg text-heading hover:bg-primary-50 cursor-pointer flex-shrink-0"
-          >
-            <Menu className="w-4 h-4" />
-          </button>
-
-          {/* Section Group > Page Breadcrumb */}
-          <div className="flex-1 min-w-0 flex items-center gap-1.5">
-            {breadcrumb.group && (
-              <span className="hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-muted truncate">
-                <span className="truncate">{breadcrumb.group.label}</span>
-                <ChevronRight className="w-3.5 h-3.5 text-muted/60 flex-shrink-0" />
-              </span>
-            )}
-            <h1 className="text-base font-bold text-heading truncate">{pageTitle}</h1>
-          </div>
-
-          {/* Mobile Search Toggle */}
-          <button
-            type="button"
-            onClick={() => setMobileSearchOpen((s) => !s)}
-            aria-label="Search pages"
-            className="sm:hidden p-2 rounded-lg border border-border bg-bg text-muted hover:text-heading cursor-pointer flex-shrink-0"
-          >
-            <Search className="w-4 h-4" />
-          </button>
-
-          {/* Desktop Command Search */}
-          <div ref={searchBoxRef} className="relative hidden sm:block">
-            <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-            <input
-              ref={searchInputRef}
-              type="search"
-              aria-label="Jump to page"
-              value={navSearch}
-              onChange={(e) => setNavSearch(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && matchingNavItems.length > 0) {
-                  e.preventDefault()
-                  handleNavigate(matchingNavItems[0].route)
-                  searchInputRef.current?.blur()
-                }
-              }}
-              placeholder="Jump to page… (/)"
-              className="pl-9 pr-3 py-1.5 min-h-[38px] text-sm rounded-xl border border-slate-300 bg-bg w-52 focus:outline-none focus:ring-2 focus:ring-primary-700/25 focus:border-primary-700 focus:w-64 transition-all duration-200"
-            />
-            {navSearch.trim() && (
-              <div
-                data-command-results="true"
-                className="absolute right-0 mt-1.5 w-72 max-w-[calc(100vw-2rem)] bg-surface border border-border rounded-xl shadow-xl py-1.5 z-40"
-              >
-                {matchingNavItems.length === 0 ? (
-                  <p className="px-3 py-2 text-xs text-muted">No matching pages</p>
-                ) : (
-                  matchingNavItems.slice(0, 8).map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleNavigate(item.route)}
-                      className="w-full text-left px-3 py-2 text-xs hover:bg-primary-50 flex items-center justify-between gap-2 cursor-pointer"
-                    >
-                      <div className="min-w-0">
-                        <p className="font-semibold text-heading truncate">{item.label}</p>
-                        <p className="text-xs text-muted truncate">
-                          {GROUP_META[item.group].label}
-                        </p>
-                      </div>
-                      <span className="text-xs text-muted font-mono flex-shrink-0">{item.route}</span>
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Visual UI Annotate & Note Button */}
-          <button
-            type="button"
-            data-annotator-ui="true"
-            onClick={() => setAnnotating((a) => !a)}
-            aria-pressed={annotating}
-            title="Pin UI/UX notes directly on boxes or buttons (Alt+A)"
-            className={cn(
-              'inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 min-h-[38px] rounded-xl border text-xs font-semibold transition-colors cursor-pointer flex-shrink-0',
-              annotating
-                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
-                : 'bg-surface border-slate-300 text-heading hover:bg-primary-50 hover:border-primary-200',
-            )}
-          >
-            <MessageSquarePlus className="w-4 h-4" />
-            <span className="hidden sm:inline">{annotating ? 'Annotating' : 'Annotate'}</span>
-            {annotationCount > 0 && (
-              <span
-                className={cn(
-                  'px-1.5 py-0.2 rounded-full text-xs font-bold tabular-nums',
-                  annotating ? 'bg-teal-500 text-white' : 'bg-primary-100 text-primary-800',
-                )}
-              >
-                {annotationCount}
-              </span>
-            )}
-          </button>
-
-          <span className="hidden xl:inline-flex text-xs font-medium text-muted bg-bg border border-border rounded-xl px-3 py-1.5 tabular-nums flex-shrink-0">
-            {getDhakaToday()}
-          </span>
-
-          {/* Cloud Database Sync Status */}
-          <CloudSyncBadge />
-
-          {/* Academy AI Assistant Trigger */}
-          <button
-            type="button"
-            onClick={() => setAiDrawerOpen(true)}
-            title="ইতকান অ্যাকাডেমি এআই সহকারী"
-            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 min-h-[38px] rounded-xl bg-gradient-to-r from-teal-800 to-emerald-800 hover:from-teal-700 hover:to-emerald-700 text-white text-xs font-bold transition-all shadow-3xs cursor-pointer flex-shrink-0"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-teal-300" />
-            <span className="hidden sm:inline">এআই সহকারী</span>
-          </button>
-
-          {/* Theme Customizer Switcher */}
-          <ThemeSwitcher />
-
-          {/* Notifications Bell */}
-          <div ref={notifBoxRef} className="relative flex-shrink-0">
+          {/* Left: Mobile Menu Toggle + Section Group & Page Title */}
+          <div className="flex items-center gap-2.5 min-w-0">
             <button
               type="button"
-              onClick={() => setNotifOpen(!notifOpen)}
-              aria-label="Notifications"
-              aria-expanded={notifOpen}
-              className="relative w-10 h-10 rounded-xl border border-slate-300 bg-surface text-heading hover:bg-primary-50 hover:border-primary-200 hover:text-primary-700 flex items-center justify-center transition-colors cursor-pointer"
-              title="Notifications"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open navigation menu"
+              className="lg:hidden p-1.5 -ml-1 rounded-md border border-slate-200/90 bg-surface text-heading hover:bg-slate-50 cursor-pointer flex-shrink-0"
             >
-              <Bell className="w-5 h-5" />
-              {totalBellAlerts > 0 && (
-                <span className="absolute -top-1 -right-1 flex items-center justify-center">
-                  {dockedAttentionItems.length > 0 && (
-                    <span className="animate-ping absolute inline-flex h-[19px] w-[19px] rounded-full bg-red-500 opacity-60" />
-                  )}
-                  <span className="relative min-w-[19px] h-[19px] px-1 bg-red-600 text-white text-[11px] font-bold rounded-full flex items-center justify-center tabular-nums shadow-xs ring-2 ring-surface">
-                    {totalBellAlerts}
-                  </span>
+              <Menu className="w-4 h-4" />
+            </button>
+
+            <div className="min-w-0 flex items-center gap-2">
+              {breadcrumb.group && (
+                <span className="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider truncate">
+                  <span className="truncate">{breadcrumb.group.label}</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
                 </span>
               )}
+              <h1 className="text-sm sm:text-base font-black text-heading truncate">{pageTitle}</h1>
+            </div>
+          </div>
+
+          {/* Right Action Bar: Search, Cloud Sync, AI Assistant, Theme, Bell, Annotate */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Mobile Search Toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileSearchOpen((s) => !s)}
+              aria-label="Search pages"
+              className="sm:hidden w-9 h-9 rounded-md border border-slate-200/90 bg-surface text-slate-600 hover:text-heading flex items-center justify-center cursor-pointer flex-shrink-0"
+            >
+              <Search className="w-4 h-4" />
             </button>
+
+            {/* Desktop Command Search */}
+            <div ref={searchBoxRef} className="relative hidden sm:block">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <input
+                ref={searchInputRef}
+                type="search"
+                aria-label="Jump to page"
+                value={navSearch}
+                onChange={(e) => setNavSearch(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && matchingNavItems.length > 0) {
+                    e.preventDefault()
+                    handleNavigate(matchingNavItems[0].route)
+                    searchInputRef.current?.blur()
+                  }
+                }}
+                placeholder="পৃষ্ঠায় যান… (/)"
+                className="pl-8 pr-7 h-9 text-xs rounded-md border border-slate-200/90 bg-slate-50/70 w-44 lg:w-56 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:border-primary-700 focus:bg-white focus:w-64 transition-all duration-200"
+              />
+              <kbd className="hidden lg:inline-flex absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-slate-400 bg-white border border-slate-200 rounded px-1 pointer-events-none">
+                /
+              </kbd>
+              {navSearch.trim() && (
+                <div
+                  data-command-results="true"
+                  className="absolute right-0 mt-1.5 w-72 max-w-[calc(100vw-2rem)] bg-surface border border-border rounded-md shadow-xl py-1.5 z-40"
+                >
+                  {matchingNavItems.length === 0 ? (
+                    <p className="px-3 py-2 text-xs text-muted">কোনো পেজ পাওয়া যায়নি</p>
+                  ) : (
+                    matchingNavItems.slice(0, 8).map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleNavigate(item.route)}
+                        className="w-full text-left px-3 py-2 text-xs hover:bg-primary-50 flex items-center justify-between gap-2 cursor-pointer"
+                      >
+                        <div className="min-w-0">
+                          <p className="font-semibold text-heading truncate">{item.label}</p>
+                          <p className="text-xs text-muted truncate">
+                            {GROUP_META[item.group].label}
+                          </p>
+                        </div>
+                        <span className="text-xs text-muted font-mono flex-shrink-0">{item.route}</span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Cloud Database Sync Status */}
+            <CloudSyncBadge />
+
+            {/* Academy AI Assistant Trigger */}
+            <button
+              type="button"
+              onClick={() => setAiDrawerOpen(true)}
+              title="ইতকান অ্যাকাডেমি এআই সহকারী"
+              className="inline-flex items-center gap-1.5 px-2.5 h-9 rounded-md border border-teal-200/90 bg-teal-50 hover:bg-teal-100/80 text-teal-900 text-xs font-bold transition-colors cursor-pointer flex-shrink-0"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-teal-700" />
+              <span className="hidden md:inline">এআই সহকারী</span>
+            </button>
+
+            {/* Theme Customizer Switcher */}
+            <ThemeSwitcher />
+
+            {/* Notifications Bell */}
+            <div ref={notifBoxRef} className="relative flex-shrink-0">
+              <button
+                type="button"
+                onClick={() => setNotifOpen(!notifOpen)}
+                aria-label="Notifications"
+                aria-expanded={notifOpen}
+                className="relative w-9 h-9 rounded-md border border-slate-200/90 bg-surface text-slate-700 hover:bg-slate-50 flex items-center justify-center transition-colors cursor-pointer"
+                title="Notifications"
+              >
+                <Bell className="w-4 h-4" />
+                {totalBellAlerts > 0 && (
+                  <span className="absolute -top-1 -right-1 flex items-center justify-center">
+                    {dockedAttentionItems.length > 0 && (
+                      <span className="animate-ping absolute inline-flex h-[17px] w-[17px] rounded-full bg-red-500 opacity-60" />
+                    )}
+                    <span className="relative min-w-[17px] h-[17px] px-1 bg-red-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center tabular-nums ring-2 ring-surface">
+                      {totalBellAlerts}
+                    </span>
+                  </span>
+                )}
+              </button>
             {notifOpen && (
               <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-surface border border-border rounded-2xl shadow-xl z-40 overflow-hidden">
                 <div className="px-4 py-2.5 border-b border-border flex items-center justify-between">
@@ -891,7 +865,30 @@ export default function AppShell({ user, onUserChange, onLogout, children, pendi
               </div>
             )}
           </div>
-        </header>
+
+          {/* Visual UI Annotate & Note Button (Compact Icon Tool) */}
+          <button
+            type="button"
+            data-annotator-ui="true"
+            onClick={() => setAnnotating((a) => !a)}
+            aria-pressed={annotating}
+            title="Pin UI/UX notes directly on boxes or buttons (Alt+A)"
+            className={cn(
+              'relative w-9 h-9 rounded-md border flex items-center justify-center transition-colors cursor-pointer flex-shrink-0',
+              annotating
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-surface border-slate-200/90 text-slate-700 hover:bg-slate-50 hover:text-primary-700',
+            )}
+          >
+            <MessageSquarePlus className="w-4 h-4" />
+            {annotationCount > 0 && (
+              <span className="absolute -top-1 -right-1 px-1 min-w-[16px] h-[16px] rounded-full bg-teal-600 text-white text-[9px] font-bold flex items-center justify-center tabular-nums">
+                {annotationCount}
+              </span>
+            )}
+          </button>
+        </div>
+      </header>
 
         {/* Expandable Mobile Command Search Strip */}
         {mobileSearchOpen && (
