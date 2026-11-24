@@ -22,13 +22,14 @@ function emitChange() {
   window.dispatchEvent(new CustomEvent(EVENT_NAME))
 }
 
-export function publishAttentionQueue(items: AttentionNotificationItem[]): void {
-  const prev = state.items
+export function publishAttentionQueue(items: AttentionNotificationItem[] = []): void {
+  const safeItems = Array.isArray(items) ? items : []
+  const prev = Array.isArray(state?.items) ? state.items : []
   const changed =
-    prev.length !== items.length ||
-    prev.some((p, i) => p.key !== items[i]?.key || p.text !== items[i]?.text || p.route !== items[i]?.route)
+    prev.length !== safeItems.length ||
+    prev.some((p, i) => p?.key !== safeItems[i]?.key || p?.text !== safeItems[i]?.text || p?.route !== safeItems[i]?.route)
   if (!changed) return
-  state = { ...state, items }
+  state = { ...state, items: safeItems }
   emitChange()
 }
 

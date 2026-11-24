@@ -12,15 +12,16 @@ interface Props {
 }
 
 export default function TodayClassesSection({
-  todayClasses,
+  todayClasses = [],
   onNavigate,
 }: Props) {
+  const safeClasses = Array.isArray(todayClasses) ? todayClasses : []
   const [statusFilter, setStatusFilter] = useState<'all' | 'in_progress' | 'scheduled' | 'ended'>('all')
 
   const filtered = useMemo(() => {
-    if (statusFilter === 'all') return todayClasses
-    return todayClasses.filter((c) => c.status === statusFilter)
-  }, [todayClasses, statusFilter])
+    if (statusFilter === 'all') return safeClasses
+    return safeClasses.filter((c) => c.status === statusFilter)
+  }, [safeClasses, statusFilter])
 
   return (
     <Card className="rounded-2xl border-slate-200/90 shadow-3xs">
@@ -28,7 +29,7 @@ export default function TodayClassesSection({
         <div>
           <CardTitle className="text-base font-bold flex items-center gap-2">
             <Video className="w-4 h-4 text-primary-700" />
-            আজকের লাইভ অনলাইন ক্লাস ({todayClasses.length})
+            আজকের লাইভ অনলাইন ক্লাস ({safeClasses.length})
           </CardTitle>
           <p className="text-xs text-muted mt-0.5">
             উস্তাদ ও যিম্মাদারদের অনলাইন ক্লাসরুম নিয়ন্ত্রণ এবং সরাসরি মনিটরিং
@@ -38,7 +39,7 @@ export default function TodayClassesSection({
         <div className="flex items-center gap-2 flex-wrap">
           <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200/70 text-xs">
             {(['all', 'in_progress', 'scheduled', 'ended'] as const).map((st) => {
-              const count = st === 'all' ? todayClasses.length : todayClasses.filter((c) => c.status === st).length
+              const count = st === 'all' ? safeClasses.length : safeClasses.filter((c) => c.status === st).length
               const labels = {
                 all: 'সকল',
                 in_progress: 'চলমান (Live)',

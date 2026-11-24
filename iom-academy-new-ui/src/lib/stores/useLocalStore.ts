@@ -55,8 +55,11 @@ export const ALL_SUPER_ADMIN_KEYS = [
 export function readStore<T>(key: string, fallback: T): T {
   try {
     const raw = window.localStorage.getItem(key)
-    if (!raw) return fallback
-    return JSON.parse(raw) as T
+    if (!raw || raw === 'undefined' || raw === 'null') return fallback
+    const parsed = JSON.parse(raw)
+    if (parsed === null || parsed === undefined) return fallback
+    if (Array.isArray(fallback) && !Array.isArray(parsed)) return fallback
+    return parsed as T
   } catch {
     return fallback
   }
@@ -168,8 +171,11 @@ export async function hydrateSuperAdminStoresFromServer(): Promise<{ downloaded:
     let uploaded = 0
     for (const key of ALL_SUPER_ADMIN_KEYS) {
       if (Object.prototype.hasOwnProperty.call(serverStores, key)) {
-        writeStore(key, serverStores[key].value, { sync: false })
-        downloaded += 1
+        const val = serverStores[key]?.value
+        if (val !== undefined && val !== null) {
+          writeStore(key, val, { sync: false })
+          downloaded += 1
+        }
       } else {
         try {
           const raw = window.localStorage.getItem(key)

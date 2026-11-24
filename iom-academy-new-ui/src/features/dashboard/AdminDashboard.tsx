@@ -368,9 +368,17 @@ export default function AdminDashboard({ user }: Props) {
     monthKey,
   })
 
-  const pendingTickets = supportTickets.filter((t) => t.status === 'open' || t.status === 'in_progress')
-  const teacherCount = users.filter((u) => u.role === 'teacher').length
-  const zimmadarCount = users.filter((u) => u.role === 'zimmadar').length
+  const safeUsers = Array.isArray(users) ? users : []
+  const safeTickets = Array.isArray(supportTickets) ? supportTickets : []
+  const safeTodayClasses = Array.isArray(todayClasses) ? todayClasses : []
+  const safeUnpaidInvoices = Array.isArray(unpaidInvoices) ? unpaidInvoices : []
+  const safePendingReports = Array.isArray(pendingReports) ? pendingReports : []
+  const safePendingPayables = Array.isArray(pendingPayables) ? pendingPayables : []
+  const safeStarStudents = Array.isArray(starStudents) ? starStudents : []
+
+  const pendingTickets = safeTickets.filter((t) => t.status === 'open' || t.status === 'in_progress')
+  const teacherCount = safeUsers.filter((u) => u.role === 'teacher').length
+  const zimmadarCount = safeUsers.filter((u) => u.role === 'zimmadar').length
 
   // Attention Rows
   const attentionRows = [
@@ -381,11 +389,11 @@ export default function AdminDashboard({ user }: Props) {
       text: `${unverifiedEnded}টি সম্পন্ন ক্লাসের Held Verification বকেয়া (হাজিরা লক করা প্রয়োজন)`,
       route: '#/classes',
     },
-    pendingReports.length > 0 && {
+    safePendingReports.length > 0 && {
       key: 'reports',
       icon: <FileText className="w-4 h-4 text-orange-600" />,
       iconBg: 'bg-orange-50 border-orange-100',
-      text: `${pendingReports.length}টি ক্লাস রিপোর্ট যিম্মাদার পর্যালোচনার অপেক্ষায়`,
+      text: `${safePendingReports.length}টি ক্লাস রিপোর্ট যিম্মাদার পর্যালোচনার অপেক্ষায়`,
       route: '#/reports',
     },
     pendingTickets.length > 0 && {
@@ -423,11 +431,11 @@ export default function AdminDashboard({ user }: Props) {
       text: `${pendingTeacherLeaves}টি শিক্ষক বদলি / ছুটির আবেদন অনুমোদন অপেক্ষমান`,
       route: '#/teachers',
     },
-    unpaidInvoices.length > 0 && {
+    safeUnpaidInvoices.length > 0 && {
       key: 'invoices',
       icon: <Receipt className="w-4 h-4 text-rose-600" />,
       iconBg: 'bg-rose-50 border-rose-100',
-      text: `${unpaidInvoices.length}টি অপরিশোধিত টিউশন ফি (৳ ${totalOutstanding.toLocaleString()})`,
+      text: `${safeUnpaidInvoices.length}টি অপরিশোধিত টিউশন ফি (৳ ${totalOutstanding.toLocaleString()})`,
       route: '#/invoices',
     },
   ].filter(Boolean) as Array<{
@@ -530,9 +538,9 @@ export default function AdminDashboard({ user }: Props) {
         welcomeBanner={welcomeBanner}
         liveMonitorBanner={liveMonitorBanner}
         starStudentsBanner={starStudentsBanner}
-        liveNowClasses={todayClasses.filter((c) => c.status === 'in_progress')}
-        todayClassesCount={todayClasses.length}
-        starStudents={starStudents}
+        liveNowClasses={safeTodayClasses.filter((c) => c.status === 'in_progress')}
+        todayClassesCount={safeTodayClasses.length}
+        starStudents={safeStarStudents}
         attentionRows={attentionRows}
         attentionClosing={attentionClosing}
         attentionDocked={attentionQueue.docked}
@@ -548,9 +556,9 @@ export default function AdminDashboard({ user }: Props) {
       <DashboardKpiStrip
         summary={summary}
         loadingSummary={loadingSummary}
-        todayClassesCount={todayClasses.length}
-        endedClassesCount={todayClasses.filter((c) => c.status === 'ended').length}
-        inProgressClassesCount={todayClasses.filter((c) => c.status === 'in_progress').length}
+        todayClassesCount={safeTodayClasses.length}
+        endedClassesCount={safeTodayClasses.filter((c) => c.status === 'ended').length}
+        inProgressClassesCount={safeTodayClasses.filter((c) => c.status === 'in_progress').length}
         loadingClasses={loadingClasses}
         attendanceAvgPct={attendanceStats.avgPct}
         monthKey={monthKey}
@@ -558,11 +566,11 @@ export default function AdminDashboard({ user }: Props) {
         monthBilled={monthBilled}
         monthCollectionPct={monthCollectionPct}
         totalOutstanding={totalOutstanding}
-        unpaidInvoicesCount={unpaidInvoices.length}
+        unpaidInvoicesCount={safeUnpaidInvoices.length}
         netBalanceMonth={netBalanceMonth}
         monthPayablesTotal={monthPayablesTotal}
         monthOperatingExpenses={monthOperatingExpenses}
-        usersCount={users.length}
+        usersCount={safeUsers.length}
         teacherCount={teacherCount}
         zimmadarCount={zimmadarCount}
         onNavigate={navigateTo}
@@ -573,7 +581,7 @@ export default function AdminDashboard({ user }: Props) {
 
       {/* ── 4. Today's Online Classes Session Grid ── */}
       <TodayClassesSection
-        todayClasses={todayClasses}
+        todayClasses={safeTodayClasses}
         onNavigate={navigateTo}
       />
 
@@ -602,7 +610,7 @@ export default function AdminDashboard({ user }: Props) {
         monthPayablesTotal={monthPayablesTotal}
         monthOperatingExpenses={monthOperatingExpenses}
         pendingPayablesSum={pendingPayablesSum}
-        pendingPayablesCount={pendingPayables.length}
+        pendingPayablesCount={safePendingPayables.length}
         onNavigate={navigateTo}
       />
     </div>

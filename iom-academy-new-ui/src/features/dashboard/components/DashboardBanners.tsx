@@ -56,9 +56,9 @@ export default function DashboardBanners({
   monthKey: _monthKey,
   today,
   welcomeBanner: _welcomeBanner,
-  liveNowClasses,
-  starStudents,
-  attentionRows,
+  liveNowClasses = [],
+  starStudents = [],
+  attentionRows = [],
   onDismissAttention,
   onNavigate,
 }: Props) {
@@ -66,23 +66,27 @@ export default function DashboardBanners({
   const [collapsed, setCollapsed] = useState(false)
   const [isDismissed, setIsDismissed] = useState(false)
 
-  const firstName = user.name ? user.name.split(' ')[0] : 'ইউজার'
+  const firstName = user?.name ? user.name.split(' ')[0] : 'ইউজার'
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
 
+  const safeAttentionRows = Array.isArray(attentionRows) ? attentionRows : []
+  const safeLiveClasses = Array.isArray(liveNowClasses) ? liveNowClasses : []
+  const safeStarStudents = Array.isArray(starStudents) ? starStudents : []
+
   // Categorize attention rows into 4 distinct structured buckets (matching reference UI)
-  const atRiskItems = attentionRows.filter(
+  const atRiskItems = safeAttentionRows.filter(
     (r) => r.key === 'followups' || r.key === 'verify-held',
   )
-  const feeItems = attentionRows.filter((r) => r.key === 'invoices')
-  const staffItems = attentionRows.filter(
+  const feeItems = safeAttentionRows.filter((r) => r.key === 'invoices')
+  const staffItems = safeAttentionRows.filter(
     (r) => r.key === 'teacher-leaves' || r.key === 'reports',
   )
-  const requestItems = attentionRows.filter(
+  const requestItems = safeAttentionRows.filter(
     (r) => r.key === 'admissions' || r.key === 'tickets' || r.key === 'leaves',
   )
 
-  const totalAttentionCount = attentionRows.length
+  const totalAttentionCount = safeAttentionRows.length
 
   function handleDismiss() {
     setIsDismissed(true)
@@ -225,9 +229,9 @@ export default function DashboardBanners({
                         : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                     }`}
                   >
-                    সেরা শিক্ষার্থী ({starStudents.length})
+                    সেরা শিক্ষার্থী ({safeStarStudents.length})
                   </button>
-                  {liveNowClasses.length > 0 && (
+                  {safeLiveClasses.length > 0 && (
                     <button
                       type="button"
                       onClick={() => {
@@ -241,7 +245,7 @@ export default function DashboardBanners({
                       }`}
                     >
                       <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                      লাইভ ({liveNowClasses.length})
+                      লাইভ ({safeLiveClasses.length})
                     </button>
                   )}
                 </div>
@@ -502,7 +506,7 @@ export default function DashboardBanners({
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                      {starStudents.map((star) => (
+                      {safeStarStudents.map((star) => (
                         <div
                           key={star.id}
                           className="p-3.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-surface shadow-3xs flex items-center justify-between gap-3"
@@ -537,7 +541,7 @@ export default function DashboardBanners({
                 )}
 
                 {/* ── TAB 3: Running Live Classes ── */}
-                {activeTab === 'liveClasses' && liveNowClasses.length > 0 && (
+                {activeTab === 'liveClasses' && safeLiveClasses.length > 0 && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
@@ -553,7 +557,7 @@ export default function DashboardBanners({
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {liveNowClasses.map((cls) => (
+                      {safeLiveClasses.map((cls) => (
                         <div
                           key={cls.id}
                           className="p-3.5 rounded-xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/30 shadow-3xs flex items-center justify-between gap-2.5"

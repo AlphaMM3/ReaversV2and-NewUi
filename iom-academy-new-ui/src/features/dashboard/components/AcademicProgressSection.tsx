@@ -17,14 +17,20 @@ interface Props {
 export default function AcademicProgressSection({
   monthKey,
   attendanceAvgPct,
-  courseRates,
-  studentsByCourse,
-  assessments,
-  resources,
-  announcements,
+  courseRates = [],
+  studentsByCourse = [],
+  assessments = [],
+  resources = [],
+  announcements = [],
   onNavigate,
 }: Props) {
-  const publishedAssessments = assessments.filter((a) => a.published).length
+  const safeAssessments = Array.isArray(assessments) ? assessments : []
+  const safeResources = Array.isArray(resources) ? resources : []
+  const safeAnnouncements = Array.isArray(announcements) ? announcements : []
+  const safeCourseRates = Array.isArray(courseRates) ? courseRates : []
+  const safeStudentsByCourse = Array.isArray(studentsByCourse) ? studentsByCourse : []
+
+  const publishedAssessments = safeAssessments.filter((a) => a.published).length
 
   return (
     <div className="space-y-5">
@@ -33,11 +39,11 @@ export default function AcademicProgressSection({
         <ChartTableCard
           title="শিক্ষার্থী উপস্থিতি ও পারসেন্টেজ"
           subtitle={`অনলাইন ভেরিফাইড ক্লাস উপস্থিতি (${monthKey}) · গড় ${attendanceAvgPct ?? '—'}%`}
-          isEmpty={courseRates.length === 0}
+          isEmpty={safeCourseRates.length === 0}
           emptyMessage="চলতি মাসের জন্য এখনো কোনো ক্লাস শেষ ও ভেরিফাই হয়নি।"
           chart={
             <SparkAreaChart
-              points={courseRates.slice(0, 8).map((c) => ({
+              points={safeCourseRates.slice(0, 8).map((c) => ({
                 label: c.label.split(' · ')[0].slice(0, 14),
                 value: c.pct,
               }))}
@@ -50,7 +56,7 @@ export default function AcademicProgressSection({
             <table className="iom-table">
               <thead><tr><th>কোর্স ও ব্যাচ</th><th>অনুষ্ঠিত ক্লাস</th><th>উপস্থিতি %</th></tr></thead>
               <tbody>
-                {courseRates.map((r, idx) => (
+                {safeCourseRates.map((r, idx) => (
                   <tr key={`${r.label}-${idx}`}>
                     <td className="text-xs font-semibold">{r.label}</td>
                     <td className="text-xs">{r.held}</td>
@@ -65,14 +71,14 @@ export default function AcademicProgressSection({
         <ChartTableCard
           title="কোর্স ও ব্যাচভিত্তিক শিক্ষার্থী বন্টন"
           subtitle="সক্রিয় এনরোলমেন্টের অনুপাত"
-          isEmpty={studentsByCourse.length === 0}
+          isEmpty={safeStudentsByCourse.length === 0}
           emptyMessage="কোনো সক্রিয় শিক্ষার্থী নথিভুক্ত নেই।"
-          chart={<HorizontalBarList items={studentsByCourse} />}
+          chart={<HorizontalBarList items={safeStudentsByCourse} />}
           table={
             <table className="iom-table">
               <thead><tr><th>কোর্স / ব্যাচ</th><th>সক্রিয় শিক্ষার্থী</th></tr></thead>
               <tbody>
-                {studentsByCourse.map((s, idx) => (
+                {safeStudentsByCourse.map((s, idx) => (
                   <tr key={`${s.label}-${idx}`}>
                     <td className="text-xs font-semibold">{s.label}</td>
                     <td className="text-xs font-bold">{s.displayValue} জন</td>
@@ -92,7 +98,7 @@ export default function AcademicProgressSection({
             <Badge variant="approved">{publishedAssessments} প্রকাশিত</Badge>
           </div>
           <div className="mt-2">
-            <p className="text-2xl font-black text-heading">{assessments.length} টি পরীক্ষা</p>
+            <p className="text-2xl font-black text-heading">{safeAssessments.length} টি পরীক্ষা</p>
             <p className="text-xs text-muted mt-0.5">মাসিক ও সাপ্তাহিক মূল্যায়ন ট্র্যাকড</p>
           </div>
           <button
@@ -111,7 +117,7 @@ export default function AcademicProgressSection({
             <BookOpen className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="mt-2">
-            <p className="text-2xl font-black text-heading">{resources.length} টি ফাইল</p>
+            <p className="text-2xl font-black text-heading">{safeResources.length} টি ফাইল</p>
             <p className="text-xs text-muted mt-0.5">পিডিএফ কিতাব, কায়েদা ও শিট</p>
           </div>
           <button
@@ -127,10 +133,10 @@ export default function AcademicProgressSection({
         <div className="bg-surface rounded-2xl border border-slate-200/90 p-4 shadow-3xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase text-slate-500">অ্যাকাডেমিক নোটিশ ও ঘোষণা</span>
-            <Badge variant="neutral">{announcements.length} নোটিশ</Badge>
+            <Badge variant="neutral">{safeAnnouncements.length} নোটিশ</Badge>
           </div>
           <div className="mt-2">
-            <p className="text-2xl font-black text-heading">{announcements.length > 0 ? announcements[0].title.slice(0, 20) + '...' : 'সকল নোটিশ আপডেট'}</p>
+            <p className="text-2xl font-black text-heading">{safeAnnouncements.length > 0 ? safeAnnouncements[0].title.slice(0, 20) + '...' : 'সকল নোটিশ আপডেট'}</p>
             <p className="text-xs text-muted mt-0.5">শিক্ষক ও অভিভাবক টেলিগ্রাম চ্যানেলে যুক্ত</p>
           </div>
           <button
