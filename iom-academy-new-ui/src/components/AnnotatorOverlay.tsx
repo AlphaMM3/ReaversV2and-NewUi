@@ -196,20 +196,41 @@ function clampPopoverPos(x: number, y: number, cardWidth = 340, cardHeight = 290
   return { left, top }
 }
 
+function formatAnnotationItem(a: UiAnnotation, index = 1): string {
+  const lines = [
+    `${index}. **[${a.tag}]** \`${a.route}\` (${a.viewport}) — **${a.label}**`,
+    `   - Note: ${a.note}`,
+  ]
+  if (a.geometryNote) lines.push(`   - Geometry: \`${a.geometryNote}\``)
+  lines.push(`   - Target selector: \`${a.selector}\``)
+  return lines.join('\n')
+}
+
+function buildSingleAnnotationPrompt(a: UiAnnotation): string {
+  return [
+    `## UI/UX Visual Note (1 open item)`,
+    '',
+    formatAnnotationItem(a, 1),
+  ].join('\n')
+}
+
+function buildSelectedAnnotationsPrompt(items: UiAnnotation[]): string {
+  if (items.length === 0) return 'No notes selected.'
+  if (items.length === 1) return buildSingleAnnotationPrompt(items[0])
+  const lines = [
+    `## UI/UX Visual Notes (${items.length} items)`,
+    '',
+  ]
+  items.forEach((a, idx) => {
+    lines.push(formatAnnotationItem(a, idx + 1))
+  })
+  return lines.join('\n')
+}
+
 function buildMarkdownPrompt(list: UiAnnotation[], onlyOpen = true): string {
   const target = onlyOpen ? list.filter((a) => a.status !== 'resolved') : list
   if (target.length === 0) return 'No open UI/UX annotations to export.'
-  const lines = [
-    `## UI/UX Visual Notes (${target.length} ${onlyOpen ? 'open' : 'total'} item${target.length > 1 ? 's' : ''})`,
-    '',
-  ]
-  target.forEach((a, idx) => {
-    lines.push(`${idx + 1}. **[${a.tag}]** \`${a.route}\` (${a.viewport}) — **${a.label}**`)
-    lines.push(`   - Note: ${a.note}`)
-    if (a.geometryNote) lines.push(`   - Geometry: \`${a.geometryNote}\``)
-    lines.push(`   - Target selector: \`${a.selector}\``)
-  })
-  return lines.join('\n')
+  return buildSelectedAnnotationsPrompt(target)
 }
 
 async function copyTextSafe(text: string): Promise<boolean> {
@@ -271,6 +292,8 @@ export default function AnnotatorOverlay({
   const [hideResolvedPins, setHideResolvedPins] = useState(false)
   const [copiedBanner, setCopiedBanner] = useState('')
   const [activePinId, setActivePinId] = useState<string | null>(null)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [copiedId, setCopiedId] = useState<string | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editTag, setEditTag] = useState<string>('Alignment')
   const [editNote, setEditNote] = useState('')
@@ -536,6 +559,11 @@ export default function AnnotatorOverlay({
 
   function deleteAnnotation(id: string) {
     setAnnotations((prev) => prev.filter((a) => a.id !== id))
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
     if (activePinId === id) setActivePinId(null)
     if (editingId === id) setEditingId(null)
   }
@@ -557,6 +585,53 @@ export default function AnnotatorOverlay({
   function flashStatus(msg: string) {
     setCopiedBanner(msg)
     setTimeout(() => setCopiedBanner(''), 2400)
+  }
+
+  async function handleCopySingle(a: UiAnnotation) {
+    const text = buildSingleAnnotationPrompt(a)
+    const ok = await copyTextSafe(text)
+    if (ok) {
+      setCopiedId(a.id)
+      setTimeout(() => setCopiedId(null), 2000)
+      flashStatus('Copied 1 note for AI!')
+    }
+  }
+
+  async function handleCopySelected() {
+    const selectedList = annotations.filter((a) => selectedIds.has(a.id))
+    if (selectedList.length === 0) return
+    const text = buildSelectedAnnotationsPrompt(selectedList)
+    const ok = await copyTextSafe(text)
+    if (ok) {
+      flashStatus(`Copied ${selectedList.length} selected note(s) for AI!`)
+    }
+  }
+
+  function toggleSelectId(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  function toggleSelectAllVisible(visibleList: UiAnnotation[]) {
+    const visibleIds = visibleList.map((a) => a.id)
+    const allSelected = visibleIds.length > 0 && visibleIds.every((id) => selectedIds.has(id))
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (allSelected) {
+        visibleIds.forEach((id) => next.delete(id))
+      } else {
+        visibleIds.forEach((id) => next.add(id))
+      }
+      return next
+    })
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set())
   }
 
   async function handleCopyMarkdown(onlyOpen = true) {
@@ -787,17 +862,35 @@ export default function AnnotatorOverlay({
               <>
                 <p className="text-xs text-heading leading-relaxed whitespace-pre-wrap">{activePin.note}</p>
                 <div className="flex items-center justify-between gap-1.5 pt-2 border-t border-border/60">
-                  <button
-                    type="button"
-                    onClick={() => toggleStatus(activePin.id)}
-                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${
-                      isResolved
-                        ? 'bg-amber-50 text-amber-800 hover:bg-amber-100'
-                        : 'bg-emerald-600 text-white hover:bg-emerald-700'
-                    }`}
-                  >
-                    {isResolved ? <><RotateCcw className="w-3 h-3" /> Reopen</> : <><Check className="w-3 h-3" /> Resolve</>}
-                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => handleCopySingle(activePin)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-primary-50 text-primary-700 hover:bg-primary-100 cursor-pointer transition-colors"
+                      title="Copy this single note formatted for AI"
+                    >
+                      {copiedId === activePin.id ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-600" /> Copied!
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" /> Copy for AI
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleStatus(activePin.id)}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer ${
+                        isResolved
+                          ? 'bg-amber-50 text-amber-800 hover:bg-amber-100'
+                          : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                      }`}
+                    >
+                      {isResolved ? <><RotateCcw className="w-3 h-3" /> Reopen</> : <><Check className="w-3 h-3" /> Resolve</>}
+                    </button>
+                  </div>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
@@ -1046,15 +1139,47 @@ export default function AnnotatorOverlay({
                 ))}
               </div>
 
-              <label className="inline-flex items-center gap-1.5 text-xs font-medium text-heading cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={currentPageOnly}
-                  onChange={(e) => setCurrentPageOnly(e.target.checked)}
-                  className="rounded border-border"
-                />
-                This page only
-              </label>
+              <div className="flex items-center gap-2.5 flex-wrap">
+                {drawerAnnotations.length > 0 && (
+                  <label className="inline-flex items-center gap-1.5 text-xs font-semibold text-heading cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={
+                        drawerAnnotations.length > 0 &&
+                        drawerAnnotations.every((a) => selectedIds.has(a.id))
+                      }
+                      onChange={() => toggleSelectAllVisible(drawerAnnotations)}
+                      className="rounded border-border accent-primary-600 cursor-pointer"
+                    />
+                    <span>Select visible</span>
+                    {selectedIds.size > 0 && (
+                      <span className="text-[11px] font-bold text-primary-700 bg-primary-100/70 px-1.5 py-0.5 rounded-full">
+                        {selectedIds.size}
+                      </span>
+                    )}
+                  </label>
+                )}
+
+                {selectedIds.size > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearSelection}
+                    className="text-[11px] font-medium text-muted hover:text-heading cursor-pointer underline"
+                  >
+                    Clear
+                  </button>
+                )}
+
+                <label className="inline-flex items-center gap-1.5 text-xs font-medium text-heading cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={currentPageOnly}
+                    onChange={(e) => setCurrentPageOnly(e.target.checked)}
+                    className="rounded border-border"
+                  />
+                  This page only
+                </label>
+              </div>
             </div>
 
             {/* List */}
@@ -1069,15 +1194,28 @@ export default function AnnotatorOverlay({
                 drawerAnnotations.map((a, idx) => {
                   const isResolved = a.status === 'resolved'
                   const isEditing = editingId === a.id
+                  const isSelected = selectedIds.has(a.id)
+                  const isCopied = copiedId === a.id
                   return (
                     <div
                       key={a.id}
-                      className={`p-3.5 rounded-xl border space-y-2 ${
-                        isResolved ? 'border-emerald-200 bg-emerald-50/40' : 'border-border bg-bg/70'
+                      className={`p-3.5 rounded-xl border space-y-2 transition-all ${
+                        isSelected
+                          ? 'ring-2 ring-primary-500/80 border-primary-300 bg-primary-50/20'
+                          : isResolved
+                          ? 'border-emerald-200 bg-emerald-50/40'
+                          : 'border-border bg-bg/70'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2 flex-wrap">
                         <div className="flex items-center gap-1.5 flex-wrap">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleSelectId(a.id)}
+                            className="rounded border-border accent-primary-600 cursor-pointer w-3.5 h-3.5 mr-0.5"
+                            title="Select to copy multiple"
+                          />
                           <span className="text-xs font-bold text-primary-700">#{idx + 1}</span>
                           <span className="px-2 py-0.5 rounded-full bg-primary-50 text-primary-700 text-[11px] font-bold">
                             {a.tag}
@@ -1102,7 +1240,19 @@ export default function AnnotatorOverlay({
                           </button>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleCopySingle(a)}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-bold bg-white hover:bg-primary-50 text-primary-700 border border-primary-200 cursor-pointer transition-colors shadow-2xs"
+                            title="Copy only this note for AI"
+                          >
+                            {isCopied ? (
+                              <><Check className="w-3 h-3 text-emerald-600" /> Copied!</>
+                            ) : (
+                              <><Copy className="w-3 h-3" /> Copy for AI</>
+                            )}
+                          </button>
                           <button
                             type="button"
                             onClick={() => toggleStatus(a.id)}
@@ -1121,7 +1271,7 @@ export default function AnnotatorOverlay({
                           <button
                             type="button"
                             onClick={() => startEditing(a)}
-                            className="text-primary-700 hover:text-primary-900 cursor-pointer"
+                            className="text-primary-700 hover:text-primary-900 cursor-pointer p-1"
                             title="Edit note"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
@@ -1129,7 +1279,7 @@ export default function AnnotatorOverlay({
                           <button
                             type="button"
                             onClick={() => deleteAnnotation(a.id)}
-                            className="text-red-500 hover:text-red-700 cursor-pointer"
+                            className="text-red-500 hover:text-red-700 cursor-pointer p-1"
                             title="Delete note"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -1196,14 +1346,36 @@ export default function AnnotatorOverlay({
             {/* Footer actions */}
             <div className="p-4 border-t border-border space-y-2 bg-bg/40">
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleCopyMarkdown(true)}
-                  disabled={openAnnotations.length === 0}
-                  className="flex-1 min-w-[180px] py-2 rounded-xl bg-royal-gradient text-white text-xs font-bold inline-flex items-center justify-center gap-1.5 disabled:opacity-40 cursor-pointer"
-                >
-                  <Copy className="w-3.5 h-3.5" /> Copy Open Notes for AI ({openAnnotations.length})
-                </button>
+                {selectedIds.size > 0 ? (
+                  <button
+                    type="button"
+                    onClick={handleCopySelected}
+                    className="flex-1 min-w-[200px] py-2 rounded-xl bg-primary-700 hover:bg-primary-800 text-white text-xs font-bold inline-flex items-center justify-center gap-1.5 shadow-sm cursor-pointer transition-colors"
+                  >
+                    <Copy className="w-3.5 h-3.5" /> Copy Selected ({selectedIds.size}) for AI
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleCopyMarkdown(true)}
+                    disabled={openAnnotations.length === 0}
+                    className="flex-1 min-w-[180px] py-2 rounded-xl bg-royal-gradient text-white text-xs font-bold inline-flex items-center justify-center gap-1.5 disabled:opacity-40 cursor-pointer"
+                  >
+                    <Copy className="w-3.5 h-3.5" /> Copy Open Notes for AI ({openAnnotations.length})
+                  </button>
+                )}
+
+                {selectedIds.size > 0 && openAnnotations.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => handleCopyMarkdown(true)}
+                    className="px-3 py-2 rounded-xl border border-border bg-white text-xs font-semibold text-heading hover:bg-bg inline-flex items-center gap-1 cursor-pointer"
+                    title="Copy all open notes at once"
+                  >
+                    <Copy className="w-3.5 h-3.5" /> All Open ({openAnnotations.length})
+                  </button>
+                )}
+
                 {openAnnotations.length > 0 && (
                   <button
                     type="button"
