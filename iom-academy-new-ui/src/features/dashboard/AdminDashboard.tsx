@@ -552,7 +552,10 @@ export default function AdminDashboard({ user }: Props) {
         onNavigate={navigateTo}
       />
 
-      {/* ── 2. Primary KPI Strip (Mobile 2x2 grid, Desktop 2x3 grid) ── */}
+      {/* ── 2. Quick Actions Ribbon (Positioned right above KPI strip for immediate 1-click workflow access) ── */}
+      <QuickActionsBar onNavigate={navigateTo} />
+
+      {/* ── 3. Primary KPI Strip (Mobile 2x2 grid, Desktop 2x3 grid) ── */}
       <DashboardKpiStrip
         summary={summary}
         loadingSummary={loadingSummary}
@@ -575,9 +578,6 @@ export default function AdminDashboard({ user }: Props) {
         zimmadarCount={zimmadarCount}
         onNavigate={navigateTo}
       />
-
-      {/* ── 3. Quick Actions Ribbon ── */}
-      <QuickActionsBar onNavigate={navigateTo} />
 
       {/* ── 4. Today's Online Classes Session Grid ── */}
       <TodayClassesSection

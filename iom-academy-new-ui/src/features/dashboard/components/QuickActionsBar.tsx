@@ -26,9 +26,10 @@ export default function QuickActionsBar({ onNavigate }: Props) {
   ]
 
   return (
-    <div className="bg-surface rounded-xl border border-slate-200/90 dark:border-slate-800 p-3 sm:p-3.5 shadow-3xs space-y-2">
+    <div className="bg-surface rounded-lg border border-slate-200/90 dark:border-slate-800 p-2.5 sm:p-3 shadow-3xs space-y-2">
       <div className="flex items-center justify-between">
-        <h3 className="text-xs font-bold text-heading uppercase tracking-wider">
+        <h3 className="text-xs font-bold text-heading uppercase tracking-wider flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary-600 inline-block" />
           কুইক অ্যাকশন
         </h3>
       </div>
@@ -40,9 +41,9 @@ export default function QuickActionsBar({ onNavigate }: Props) {
               key={act.route}
               type="button"
               onClick={() => onNavigate(act.route)}
-              className={`p-2 min-h-[58px] rounded-lg border border-slate-200/90 dark:border-slate-800 bg-surface hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all flex flex-col items-center justify-center text-center gap-1 cursor-pointer shadow-3xs active:scale-95 ${act.bg}`}
+              className={`p-2 min-h-[56px] rounded-md border border-slate-200/90 dark:border-slate-800 bg-surface hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all flex flex-col items-center justify-center text-center gap-1 cursor-pointer shadow-3xs active:scale-95 ${act.bg}`}
             >
-              <div className="w-7 h-7 rounded-md bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-700 dark:text-primary-300">
+              <div className="w-6.5 h-6.5 rounded-md bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-primary-700 dark:text-primary-300">
                 <Icon className="w-3.5 h-3.5" />
               </div>
               <p className="text-xs font-bold text-heading leading-tight">{act.label}</p>
