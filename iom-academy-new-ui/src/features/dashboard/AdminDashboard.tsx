@@ -510,26 +510,8 @@ export default function AdminDashboard({ user }: Props) {
   }, [enrollments])
 
   return (
-    <div className="w-full max-w-[1680px] mx-auto space-y-6" data-dashboard="smartidara-modular">
-      {/* ── 0. Global Filter & Date Slicer Bar ── */}
-      <DashboardGlobalFilterBar
-        selectedRange={selectedRange}
-        onRangeChange={setSelectedRange}
-        customStart={customStart}
-        customEnd={customEnd}
-        onCustomChange={(start, end) => {
-          setCustomStart(start)
-          setCustomEnd(end)
-        }}
-        onRefresh={() => {
-          refetchSummary()
-          refetchClasses()
-          refetchInvoices()
-        }}
-        isRefreshing={isFetchingClasses || isFetchingSummary}
-      />
-
-      {/* ── 1. Top SmartIdara Action Banners & Attention Queue ── */}
+    <div className="w-full max-w-[1680px] mx-auto space-y-5" data-dashboard="smartidara-modular">
+      {/* ── 1. Top Greeting, Date Range Slicer, Quick Actions & Needs Attention Queue ── */}
       <DashboardBanners
         user={user}
         isSuperAdminRole={isSuperAdminRole}
@@ -550,12 +532,29 @@ export default function AdminDashboard({ user }: Props) {
           setAttentionClosing(false)
         }}
         onNavigate={navigateTo}
+        filterBarSlot={
+          <DashboardGlobalFilterBar
+            selectedRange={selectedRange}
+            onRangeChange={setSelectedRange}
+            customStart={customStart}
+            customEnd={customEnd}
+            onCustomChange={(start, end) => {
+              setCustomStart(start)
+              setCustomEnd(end)
+            }}
+            onRefresh={() => {
+              refetchSummary()
+              refetchClasses()
+              refetchInvoices()
+            }}
+            isRefreshing={isFetchingClasses || isFetchingSummary}
+            compact
+          />
+        }
+        quickActionsSlot={<QuickActionsBar onNavigate={navigateTo} />}
       />
 
-      {/* ── 2. Quick Actions Ribbon (Positioned right above KPI strip for immediate 1-click workflow access) ── */}
-      <QuickActionsBar onNavigate={navigateTo} />
-
-      {/* ── 3. Primary KPI Strip (Mobile 2x2 grid, Desktop 2x3 grid) ── */}
+      {/* ── 2. Primary KPI Strip (Mobile 2x2 grid, Desktop 2x3 grid) ── */}
       <DashboardKpiStrip
         summary={summary}
         loadingSummary={loadingSummary}

@@ -46,6 +46,8 @@ interface Props {
   onDismissAttention?: () => void
   onRestoreAttention?: () => void
   onNavigate: (route: string) => void
+  filterBarSlot?: React.ReactNode
+  quickActionsSlot?: React.ReactNode
 }
 
 type TabType = 'attention' | 'starStudents' | 'liveClasses'
@@ -61,6 +63,8 @@ export default function DashboardBanners({
   attentionRows = [],
   onDismissAttention,
   onNavigate,
+  filterBarSlot,
+  quickActionsSlot,
 }: Props) {
   const [activeTab, setActiveTab] = useState<TabType>('attention')
   const [collapsed, setCollapsed] = useState(false)
@@ -142,12 +146,14 @@ export default function DashboardBanners({
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
+          {filterBarSlot}
+
           {/* If dismissed, show restore button right in the header bar */}
           {isDismissed && totalAttentionCount > 0 && (
             <button
               type="button"
               onClick={() => setIsDismissed(false)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-3xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold transition-all shadow-3xs cursor-pointer"
             >
               <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
               {totalAttentionCount}টি পদক্ষেপ দেখুন ▾
@@ -159,7 +165,7 @@ export default function DashboardBanners({
               size="sm"
               variant="outline"
               onClick={() => onNavigate('#/executive')}
-              className="text-xs font-semibold rounded-lg"
+              className="text-xs font-semibold rounded-md h-8.5"
             >
               এক্সিকিউটিভ রিপোর্ট
             </Button>
@@ -168,14 +174,17 @@ export default function DashboardBanners({
             size="sm"
             variant="primary"
             onClick={() => onNavigate('#/approvals')}
-            className="text-xs font-bold rounded-lg"
+            className="text-xs font-bold rounded-md h-8.5"
           >
             + অনুমোদন কেন্দ্র
           </Button>
         </div>
       </div>
 
-      {/* ── 2. Unified "Needs Attention" Box (Only rendered when not dismissed, zero blank gap!) ── */}
+      {/* ── 2. Quick Actions Ribbon (Elevated directly beneath the greeting header) ── */}
+      {quickActionsSlot}
+
+      {/* ── 3. Unified "Needs Attention" Box (Only rendered when not dismissed, zero blank gap!) ── */}
       {!isDismissed && (
         <div className="bg-surface rounded-xl border border-amber-300/80 dark:border-amber-700/80 shadow-xs relative overflow-hidden transition-all duration-300">
           {/* Top Accent Strip */}
