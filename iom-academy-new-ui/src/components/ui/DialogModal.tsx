@@ -76,7 +76,7 @@ export function DialogModal({
       <div
         ref={dialogRef}
         className={cn(
-          'w-full bg-surface border border-border rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150',
+          'w-full bg-surface border border-border rounded-lg sm:rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-150',
           maxWidthClasses[maxWidth],
           className,
         )}

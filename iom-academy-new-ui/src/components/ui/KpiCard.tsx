@@ -18,8 +18,8 @@ const colorMap = {
 
 export function KpiCard({ label, value, icon, trend, color = 'blue', loading }: KpiCardProps) {
   return (
-    <div className="h-full bg-surface rounded-2xl border border-slate-200/90 p-5 flex items-start gap-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:border-primary-200 transition-colors">
-      <div className={cn('w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0', colorMap[color])}>
+    <div className="h-full bg-surface rounded-lg border border-slate-200/90 p-5 flex items-start gap-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:border-primary-200 transition-colors">
+      <div className={cn('w-11 h-11 rounded-md flex items-center justify-center flex-shrink-0', colorMap[color])}>
         {icon}
       </div>
       <div className="flex-1 min-w-0">

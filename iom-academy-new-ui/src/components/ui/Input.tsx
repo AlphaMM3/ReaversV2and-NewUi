@@ -23,7 +23,7 @@ export function Input({ label, error, hint, className, id, ...props }: InputProp
         aria-invalid={error ? true : undefined}
         aria-describedby={feedbackId}
         className={cn(
-          'w-full px-3.5 py-2.5 min-h-[42px] rounded-xl border border-slate-300 text-sm text-heading bg-surface',
+          'w-full px-3.5 py-2.5 min-h-[42px] rounded-md border border-slate-300 text-sm text-heading bg-surface',
           'placeholder:text-muted',
           'hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-700/20 focus:border-primary-700',
           'transition-all duration-150',
